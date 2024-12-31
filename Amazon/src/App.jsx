@@ -1,5 +1,5 @@
 
-import './styles/shared/general.css';
+// import './styles/shared/general.css';
 import { useEffect, useState } from "react";
 import { NavBar } from "./components/NavBar";
 import { useFetchProducts } from "./utils/hooks/useFetchProducts";
