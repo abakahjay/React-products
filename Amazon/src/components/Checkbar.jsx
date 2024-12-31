@@ -1,4 +1,4 @@
-import"../styles/pages/checkout/checkout-header.css"
+import"./styles/pages/checkout/checkout-header.css"
 import '../styles/shared/general.css';
 export function CheckBar (){
     return <>

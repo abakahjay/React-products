@@ -1,5 +1,5 @@
 import '../styles/shared/general.css';
-import "../styles/pages/checkout/checkout.css"
+// import "./styles/pages/checkout/checkout.css"
 export function CheckBody(){
     return <>
         <div className="main">
