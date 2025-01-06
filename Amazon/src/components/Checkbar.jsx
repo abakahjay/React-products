@@ -1,6 +1,7 @@
 import"./styles/pages/checkout/checkout-header.css"
 import '../styles/shared/general.css';
-export function CheckBar (){
+import PropTypes from "prop-types";
+export function CheckBar ({quantity}){
     return <>
                     <div className="checkout-header">
             <div className="header-content">
@@ -13,7 +14,7 @@ export function CheckBar (){
 
                         <div className="checkout-header-middle-section">
                             Checkout (<a className="return-to-home-link" title="home"
-                                href="amazon.html" ></a>)
+                                href="/" >{quantity} items</a>)
                         </div>
 
                         <div className="checkout-header-right-section">
@@ -23,4 +24,7 @@ export function CheckBar (){
             </div>
 
             </>
+}
+CheckBar.propTypes = {
+    quantity: PropTypes.number.isRequired,
 }

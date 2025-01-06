@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
-import { ClassWrapper } from "./useClassWrapper.jsx";
-
-export const useFetchProducts = () =>{
-    const [userData,setUserData] = useState({});
-    const [loading,setLoading] = useState(false);
-    const [error,setError] = useState();
+export const useFetchDelivery = () =>{
+    const [userDatas,setUserData] = useState({});
+    const [loadings,setLoading] = useState(false);
+    const [errors,setError] = useState();
 
     useEffect(() =>{
         console.log('Fetching data');
         const controller = new AbortController();
         const asyncFetch =async() =>{
             try{
-                const response =await fetch("http://localhost:7004/api/v1/products?limit=50", {
+                const response =await fetch(`http://localhost:7004/api/v1/delivery`, {
                     signal: controller.signal,
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 })
                 setLoading(true);
                 const data = await response.json();
-                let products =ClassWrapper(data.products)
-                // console.log(products)
-                setUserData({...data, products: products});
+                setUserData(data);
                 // console.log(userData)
                 setError(undefined)
                 setTimeout(()=>{
@@ -48,5 +44,5 @@ export const useFetchProducts = () =>{
             controller.abort();
         }
     },[]);
-    return {userData,loading,error};
+    return {userDatas,loadings,errors};
 }

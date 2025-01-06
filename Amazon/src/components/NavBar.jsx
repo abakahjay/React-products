@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types';
 import '../styles/shared/amazon-header.css';
-export function NavBar() {
+export function NavBar({quantity}) {
     return <nav className="amazon-header">
                 <div className="amazon-header-left-section">
                     <a href="/" className="header-link" title="home">
@@ -26,9 +27,13 @@ export function NavBar() {
 
                     <a className="cart-link header-link" href="/checkout">
                         <img className="cart-icon" src="images/icons/cart-icon.png" alt="" />
-                        <div className="cart-quantity js-cart-quantity">0</div>
+                        <div className="cart-quantity js-cart-quantity">{quantity}</div>
                         <div className="cart-text">Cart</div>
                     </a>
                 </div>
             </nav>
+}
+
+NavBar.propTypes = {
+    quantity: PropTypes.number.isRequired
 }

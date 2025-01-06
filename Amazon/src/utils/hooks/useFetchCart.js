@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
-import { ClassWrapper } from "./useClassWrapper.jsx";
-
-export const useFetchProducts = () =>{
+// import dayJs from "dayjs"
+export const useFetchCart = () =>{
     const [userData,setUserData] = useState({});
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState();
+    
 
     useEffect(() =>{
         console.log('Fetching data');
         const controller = new AbortController();
         const asyncFetch =async() =>{
             try{
-                const response =await fetch("http://localhost:7004/api/v1/products?limit=50", {
+                const response =await fetch("http://localhost:7004/api/v1/cart/677aede3889f7462531c777b", {
                     signal: controller.signal,
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 })
                 setLoading(true);
                 const data = await response.json();
-                let products =ClassWrapper(data.products)
-                // console.log(products)
-                setUserData({...data, products: products});
+                
+                
+                setUserData(data);
                 // console.log(userData)
                 setError(undefined)
                 setTimeout(()=>{
