@@ -1,7 +1,11 @@
 import PropTypes from "prop-types"
 
 import {FormatCurrency} from '../utils/hooks/useFormatCurrency'
+import { useAmountCalc } from "../utils/hooks/useAmountCalc"
 export function  PaymentSummary({quantity,totalCartCents}){
+
+
+    useAmountCalc()
     return <>
         <div className="payment-summary-title">
                     Order Summary

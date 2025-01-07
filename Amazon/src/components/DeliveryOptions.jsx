@@ -1,6 +1,7 @@
 import dayJs from 'dayjs';
 import PropTypes from "prop-types";
 import { FormatCurrency } from "../utils/hooks/useFormatCurrency";
+import { ChangeDel } from '../utils/raw/ChangeDel.jsx';
 const today = new dayJs();
 export function DeliveryOptions({delivery,pro}){
     // console.log(pro)
@@ -21,9 +22,12 @@ export function DeliveryOptions({delivery,pro}){
                 <input type="radio"
                 checked={IsChecked}
                 className="delivery-option-input"
-                name={`delivery-option-${delivery._id}-${pro._id}`} onChange={()=>{
-
-                }}/>
+                name={`delivery-option-${delivery._id}-${pro._id}`} value={delivery.deliveryOptionId} onChange={(e)=>{
+                    
+                    console.log(e.target.value)
+                    ChangeDel(pro.productId,delivery.deliveryOptionId)
+                }
+                    }/>
                 <div>
                     <div className="delivery-option-date">
                         {dateString}
