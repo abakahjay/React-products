@@ -11,7 +11,7 @@ export const useFetchCart = () =>{
         const controller = new AbortController();
         const asyncFetch =async() =>{
             try{
-                const response =await fetch("http://localhost:7004/api/v1/cart/677aede3889f7462531c777b", {
+                const response =await fetch("http://localhost:7004/api/v1/cart/677d11f3fbb51c2146710501", {
                     signal: controller.signal,
                     method: "GET",
                     headers: { "Content-Type": "application/json" },

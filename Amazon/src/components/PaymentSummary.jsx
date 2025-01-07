@@ -3,9 +3,11 @@ import PropTypes from "prop-types"
 import {FormatCurrency} from '../utils/hooks/useFormatCurrency'
 import { useAmountCalc } from "../utils/hooks/useAmountCalc"
 export function  PaymentSummary({quantity,totalCartCents}){
-
-
-    useAmountCalc()
+    const {shippingPriceCents,totalBeforeTaxCents,totalCents,taxCents}=useAmountCalc()
+    // console.log(FormatCurrency(shippingPriceCents))
+    // console.log(FormatCurrency(totalBeforeTaxCents))
+    // console.log(FormatCurrency(totalCents))
+    // console.log(FormatCurrency(taxCents))
     return <>
         <div className="payment-summary-title">
                     Order Summary
@@ -19,25 +21,25 @@ export function  PaymentSummary({quantity,totalCartCents}){
                 <div className="payment-summary-row">
                     <div>Shipping &amp; handling:</div>
                     <div className="payment-summary-money">$
-                        {/* {useFormatCurrency(shippingPriceCents)} */}
+                        {FormatCurrency(shippingPriceCents)}
                         </div>
                 </div>
                 <div className="payment-summary-row subtotal-row">
                     <div>Total before tax:</div>
                     <div className="payment-summary-money">$
-                        {/* {useFormatCurrency(totalBeforeTaxCents)} */}
+                        {FormatCurrency(totalBeforeTaxCents)}
                         </div>
                 </div>
                 <div className="payment-summary-row">
                     <div>Estimated tax (10%):</div>
                     <div className="payment-summary-money">
-                        {/* ${ useFormatCurrency(taxCents)} */}
+                        {FormatCurrency(taxCents)}
                     </div>
                 </div>
                 <div className="payment-summary-row total-row">
                     <div>Order total:</div>
                     <div className="payment-summary-money">$
-                        {/* {useFormatCurrency(totalCents)} */}
+                        {FormatCurrency(totalCents)}
                         </div>
                 </div>
                 <button className="place-order-button button-primary">
