@@ -7,4 +7,8 @@ export default defineConfig({
   server: {
     port: 7005, // Replace 4000 with your desired port
   },
+  test: {//This is how we setup the tests
+    environment: 'jsdom',
+    setupFiles: './setupTests.js',
+  }
 })
