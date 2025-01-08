@@ -9,7 +9,7 @@ export const ChangeDel = (productId,option) =>{
         const controller = new AbortController();
         const asyncFetch =async() =>{
             try{
-                const response =await fetch(`http://localhost:7004/api/v1/changedel/677aede3889f7462531c777b/${productId}/${option}`, {
+                const response =await fetch(`http://localhost:7004/api/v1/changedel/677d11f3fbb51c2146710501/${productId}/${option}`, {
                     signal: controller.signal,
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-const rootUrl = 'http://localhost:5000';
+const rootUrl = 'http://localhost:7004';
 
 function App() {
   const [email, setEmail] = useState('');

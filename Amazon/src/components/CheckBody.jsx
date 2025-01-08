@@ -7,8 +7,7 @@ import "./styles/pages/checkout/checkout.css"
 import { ProductContext } from '../utils/contexts/ProductContext';
 import { CartContext } from '../utils/contexts/CartContext';
 import PropTypes from 'prop-types';
-// import { useFetchOnePro } from '../utils/hooks/useFetchOnePro';
-export function CheckBody({quantity}){
+export function CheckBody({quantity,setRefresh}){
     const {cart}=useContext(CartContext)
     cart&&console.log(cart.products)
     const [productsData,setProducts] = useState({})
@@ -26,9 +25,7 @@ export function CheckBody({quantity}){
                     <div className="checkout-grid">
                         <div className="order-summary">
                             {loading?<h1 style={{marginTop:'80px'}}>Loading...</h1>:cart&&cart.products.map((pro)=>{
-                                // const product = useFetchOnePro(pro.productId)
-                                return <OrderSummary key={pro._id} pro={pro}
-                                // product={product}
+                                return <OrderSummary key={pro._id} pro={pro} setRefresh={setRefresh}
                                 />
                                 })}
                         </div>
@@ -42,5 +39,6 @@ export function CheckBody({quantity}){
 }
 
 CheckBody.propTypes= {
-    quantity: PropTypes.number.isRequired
+    quantity: PropTypes.number.isRequired,
+    setRefresh: PropTypes.func.isRequired
 }

@@ -10,7 +10,7 @@ import { useFetchDelivery } from "../utils/hooks/useFetchDelivery";
 import { useDates } from "../utils/hooks/useDates";
 // const today = new dayJs();
 
-export function OrderSummary({pro}) {
+export function OrderSummary({pro,setRefresh}) {
     const[data,setData]=useState({})//This is for the products in the cart
     const[datas,setDatas]=useState({})//This is for the delivery options in the cart
     const[days,setDays]=useState({})//This is for the delivery options in the cart
@@ -115,7 +115,7 @@ export function OrderSummary({pro}) {
                     {/* {deliveryOptionsHTML(matchingProduct, cartItem)} */}
                     {datas.nbHits&&delivery.deliverys.map((delivery)=>{
                         return <DeliveryOptions
-                        key={delivery._id} delivery={delivery} pro={pro}
+                        key={delivery._id} delivery={delivery} pro={pro} setRefresh={setRefresh}
                         />})}
                 </div>
             </div>
@@ -125,5 +125,6 @@ export function OrderSummary({pro}) {
 }
 
 OrderSummary.propTypes = {
-    pro: PropTypes.object.isRequired
+    pro: PropTypes.object.isRequired,
+    setRefresh: PropTypes.func.isRequired
 }
