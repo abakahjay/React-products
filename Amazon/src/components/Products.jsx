@@ -1,10 +1,13 @@
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import dayJs from "dayjs";
+const today=new dayJs()
+const date=today.format('ddd, D MMMM YYYY');
 
-export function Products({product}){
+export function Products({ product }) {
     return <>
         <div className="product-container">
             <div className="product-image-container">
-                <img className="product-image" src={product.image}/>
+                <img className="product-image" src={product.image} />
             </div>
 
             <div className="product-name limit-text-to-2-lines">
@@ -12,9 +15,9 @@ export function Products({product}){
             </div>
 
             <div className="product-rating-container">
-                <img className="product-rating-stars" src={product.getStarsUrl()}/>
+                <img className="product-rating-stars" src={product.getStarsUrl()} />
                 <div className="product-rating-count link-primary">
-                {product.rating.count}
+                    {product.rating.count}
                 </div>
             </div>
 
@@ -23,7 +26,7 @@ export function Products({product}){
             </div>
 
             <div className="product-quantity-container">
-                <select className="js-quantity-selector-${product.id}">
+                <select className={`js-quantity-selector-${product.id}`}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -40,25 +43,46 @@ export function Products({product}){
             <div className="product-spacer"></div>
             {product.extraInfoHTML()}
             <div className="added-to-cart added-to-cart-${product.id}">
-                <img src="images/icons/checkmark.png"/>
+                <img src="images/icons/checkmark.png" />
                 Added
             </div>
 
-            <button className="add-to-cart-button button-primary js-add-to-cart" data-product-id={product.id}>
+            <button className="add-to-cart-button button-primary js-add-to-cart" data-product-id={product.id} onClick={() => {
+                const quany=Number(document.querySelector(`.js-quantity-selector-${product.id}`).value);
+                console.log(quany)
+                const asyncFetch = async () => {
+                    try {
+                        const response = await fetch(`http://localhost:7004/api/v1/cart/677d11f3fbb51c2146710501`, {
+
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                    "products":
+                                        [{ "productId": product.id, "deliveryOptionId": "1", "dateOrdered": date, "quantity": quany }]
+                            })
+                        })
+                        const data = await response.json();
+                        console.log(data);
+                    } catch (error) {
+                        console.log(`There is an error: ${error.message}`)
+                    }
+                };
+                asyncFetch();//Async Wrapper
+            }}>
                 Add to Cart
             </button>
         </div>
     </>
 }
 
-Products.propTypes= {
+Products.propTypes = {
     product: PropTypes.shape({
-            id: PropTypes.string,
-            name: PropTypes.string,
-            image: PropTypes.string.isRequired,
-            rating: PropTypes.object,
-            extraInfoHTML: PropTypes.func.isRequired,
-            getPrice: PropTypes.func.isRequired,
-            getStarsUrl: PropTypes.func.isRequired,
+        id: PropTypes.string,
+        name: PropTypes.string,
+        image: PropTypes.string.isRequired,
+        rating: PropTypes.object,
+        extraInfoHTML: PropTypes.func.isRequired,
+        getPrice: PropTypes.func.isRequired,
+        getStarsUrl: PropTypes.func.isRequired,
     }).isRequired,
 }

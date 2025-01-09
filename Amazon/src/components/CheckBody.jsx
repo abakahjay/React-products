@@ -9,7 +9,7 @@ import { CartContext } from '../utils/contexts/CartContext';
 import PropTypes from 'prop-types';
 export function CheckBody({quantity,setRefresh}){
     const {cart}=useContext(CartContext)
-    cart&&console.log(cart.products)
+    // cart&&console.log(cart.products)
     const [productsData,setProducts] = useState({})
     const {userData,loading,error}=useFetchProducts()
 

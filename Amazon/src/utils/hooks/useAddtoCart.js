@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-export const useFetchDelivery = () =>{
+export const useAddToCart = (products) =>{
     const [userDatas,setUserData] = useState({});
     const [loadings,setLoading] = useState(false);
     const [errors,setError] = useState();
@@ -9,10 +9,11 @@ export const useFetchDelivery = () =>{
         const controller = new AbortController();
         const asyncFetch =async() =>{
             try{
-                const response =await fetch(`http://localhost:7004/api/v1/delivery`, {
+                const response =await fetch(`http://localhost:7004/api/v1/cart/677d11f3fbb51c2146710501`, {
                     signal: controller.signal,
-                    method: "GET",
+                    method: "PATCH",
                     headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({products})
                 })
                 setLoading(true);
                 const data = await response.json();
@@ -43,6 +44,6 @@ export const useFetchDelivery = () =>{
             },2000)
             controller.abort();
         }
-    },[]);
+    },[products]);
     return {userDatas,loadings,errors};
 }

@@ -7,7 +7,7 @@ export const useFetchProducts = () =>{
     const [error,setError] = useState();
 
     useEffect(() =>{
-        console.log('Fetching data');
+        // console.log('Fetching data');
         const controller = new AbortController();
         const asyncFetch =async() =>{
             try{
@@ -28,7 +28,7 @@ export const useFetchProducts = () =>{
                 },200)
             }catch(error){
                 setLoading(true);
-                console.log(`There is an error: ${error.message}`)
+                // console.log(`There is an error: ${error.message}`)
                 const data = {products:{message:'error',successful:false}};
                 // console.log(data);
                 setUserData(data);
@@ -41,7 +41,7 @@ export const useFetchProducts = () =>{
         asyncFetch();//Async Wrapper
         return ()=>{//This is a cleanup function
             setLoading(true);
-            console.log('Unmounting the custom useEffect Fetch');
+            // console.log('Unmounting the custom useEffect Fetch');
             setTimeout(()=>{
                 setLoading(false);
             },2000)

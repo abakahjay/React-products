@@ -29,7 +29,7 @@ export function OrderSummary({pro,setRefresh}) {
     useEffect(() =>{
             if(!error&& userData.nbHits && !loading){
                 setData(userData)
-                data.nbHits&&console.log(data);
+                // data.nbHits&&console.log(data);
             }
         },[error,loading,userData,data])
 
@@ -39,7 +39,7 @@ export function OrderSummary({pro,setRefresh}) {
     useEffect(() =>{
             if(!errors&& userDatas.nbHits && !loadings){
                 setDatas(userDatas)
-                datas.nbHits&&console.log(datas);
+                // datas.nbHits&&console.log(datas);
             }
         },[errors,loadings,userDatas,datas])
 
