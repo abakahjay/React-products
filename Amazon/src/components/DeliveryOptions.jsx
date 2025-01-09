@@ -30,7 +30,7 @@ export function DeliveryOptions({delivery,pro,setRefresh}){
                 className="delivery-option-input"
                 name={`delivery-option-${pro._id}`} value={delivery.deliveryOptionId} onChange={(e)=>{
                     // IsChecked=true;
-                    // e.target.checked;
+                    // e.target.checked=true;
                     // console.log(e.target.checked);
                     console.log(e.target.value)
                     console.log(delivery.deliveryOptionId)
@@ -47,7 +47,7 @@ export function DeliveryOptions({delivery,pro,setRefresh}){
                         }catch(error){
                             console.log(`There is an error: ${error.message}`)
                         }
-                        IsChecked = true;
+                        // IsChecked = true;
                     };
                     asyncFetch();//Async Wrapper
                     // <DeliveryOptions pro={pro} delivery={delivery}/>

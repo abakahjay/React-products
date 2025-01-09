@@ -13,6 +13,7 @@ export function Checkout(){
             if(!error&& userData.nbHits && !loading &&refresh){
                 setRefresh(false)
                 setCart(userData)
+                // Checkout() 
             }
         },[error,loading,userData,refresh])
         const {quantity} = useQuantity()
