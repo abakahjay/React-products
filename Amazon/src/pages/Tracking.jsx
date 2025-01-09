@@ -113,7 +113,7 @@ export function Tracking() {
                     </div>
 
                     <div className="progress-bar-container">
-                        <div className="progress-bar" style={{width:progressPercent}}></div>
+                        <div className="progress-bar" style={{width:`${progressPercent}%`}}></div>
                     </div>
             </div>
         </div>
