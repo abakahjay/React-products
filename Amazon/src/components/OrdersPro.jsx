@@ -8,7 +8,7 @@ export function OrdersPro({itemCart,orderId,orderTime}){
     useEffect(() =>{
                 if(!error&& userData.nbHits && !loading){
                     setData(userData)
-                    data.nbHits&&console.log(data);
+                    // data.nbHits&&console.log(data);
                 }
             },[error,loading,userData,data])
     const product = data;
@@ -35,7 +35,7 @@ export function OrdersPro({itemCart,orderId,orderTime}){
                 </div>
 
                 <div className="product-actions">
-                    <a href={`/tracking?orderId=${orderId}&estimatedDeliveryTime=${product.estimatedDeliveryTime}&productId=${itemCart.id}&quantity=${product.quantity}&orderTime=${orderTime}`}>
+                    <a href={`/tracking?orderId=${orderId}&estimatedDeliveryTime=${itemCart.estimatedDeliveryTime}&productId=${itemCart.productId}&quantity=${itemCart.quantity}&orderTime=${orderTime}`}>
                         <button className="track-package-button button-secondary">
                             Track package
                         </button>

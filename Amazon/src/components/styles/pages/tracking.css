@@ -1,4 +1,4 @@
-.main {
+.mainse {
   max-width: 850px;
   margin-top: 90px;
   margin-bottom: 100px;
@@ -24,11 +24,11 @@
   margin-bottom: 10px;
 }
 
-.product-info {
+.mainse .product-info {
   margin-bottom: 3px;
 }
 
-.product-image {
+.mainse .product-image {
   max-width: 150px;
   max-height: 150px;
   margin-top: 25px;
