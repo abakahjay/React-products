@@ -3,12 +3,13 @@ import { useQuantity } from "../utils/hooks/useCartQuanity";
 import dayjs from 'dayjs'
 import { useFetchOnePro } from "../utils/hooks/useFetchOnePro";
 import { useEffect, useState } from "react";
-
 import '../components/styles/pages/tracking.css'
+
 
 export function Tracking() {
     //For the Cart Quantity
     const { quantity } = useQuantity()
+
 
     //This is how we get all the url parameter values
     const url = new URL(window.location.href);//This a builtin Class used for url parameters that takes a url to get the parameter
@@ -18,7 +19,6 @@ export function Tracking() {
     const orderTime = url.searchParams.get('orderTime');
     const quantitys = url.searchParams.get('quantity');
     const currentTime = dayjs().format('MMMM D');//This is todays date in the format MONTH Day
-
 
 
     //This is for the product
@@ -33,7 +33,6 @@ export function Tracking() {
         const product = data;
 
 
-    
     // Parse the dates using dayjs
     const currentDate = dayjs(currentTime, 'MMMM D'); // Current time
     const orderDate = dayjs(orderTime, 'MMMM D'); // Order time,This code sends it back to dayjs original format with date in the variable orderTime
@@ -50,9 +49,6 @@ export function Tracking() {
     // console.log('orderTime is ', orderTime);
     // console.log('estimatedDeliveryTime is ', estimatedDeliveryTime);
     // console.log('currentTime is ', currentTime);
-
-
-
 
 
     const progressPercent = Math.min(Math.max((elapsedTime / totalTime) * 100, 0), 100); // Clamp between 0-100 //We wont get any values outside of this
@@ -72,6 +68,7 @@ export function Tracking() {
         }
         loadEvent()
         document.addEventListener("DOMContentLoaded",loadEvent)
+
 
         //We always have to add a cleanup Function in our useEffect Callback
         return ()=>{//This Function is called whenever the component unmounts
