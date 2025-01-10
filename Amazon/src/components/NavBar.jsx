@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import '../styles/shared/amazon-header.css';
+// import { Generals } from '../utils/raw/generals';
 export function NavBar({quantity}) {
+    // const searchBar=document.querySelector('.search-bar')
+    // const searchButton=document.querySelector('.search-button')
+    // Generals(searchBar,searchButton);
     return <nav className="amazon-header">
                 <div className="amazon-header-left-section">
                     <a href="/" className="header-link" title="home">
