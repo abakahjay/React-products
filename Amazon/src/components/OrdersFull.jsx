@@ -1,4 +1,5 @@
 import PropTypes from "prop-types"
+import { FormatCurrency } from "../utils/hooks/useFormatCurrency"
 import { OrdersPro } from "./OrdersPro"
 
 export function OrdersFull({orderItem}) {
@@ -13,7 +14,7 @@ export function OrdersFull({orderItem}) {
                     </div>
                     <div className="order-total">
                         <div className="order-header-label">Total:</div>
-                        <div>${orderItem.totalCostCents}</div>
+                        <div>${FormatCurrency(orderItem.totalCostCents)}</div>
                     </div>
                 </div>
 

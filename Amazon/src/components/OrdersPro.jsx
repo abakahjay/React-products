@@ -1,8 +1,13 @@
 import PropTypes from "prop-types"
 import { useFetchOnePro } from "../utils/hooks/useFetchOnePro"
 import { useEffect, useState } from "react"
+import {useNavigate} from "react-router-dom";
+import dayJs from "dayjs";
+const today=new dayJs()
+const date=today.format('ddd, D MMMM YYYY');
 
 export function OrdersPro({itemCart,orderId,orderTime}){
+    const navigate = useNavigate()
     const[data,setData]=useState({})//This is for the products in the cart
     const {userData,loading,error}=useFetchOnePro(itemCart.productId)
     useEffect(() =>{
@@ -28,7 +33,29 @@ export function OrdersPro({itemCart,orderId,orderTime}){
                     <div className="product-quantity">
                         Quantity: {itemCart.quantity}
                     </div>
-                    <button className="buy-again-button button-primary" data-product-id="${itemCart.id}">
+                    <button className="buy-again-button button-primary" data-product-id="${itemCart.id}" onClick={()=>{
+                        const quany=1;
+                        console.log(quany)
+                        const asyncFetch = async () => {
+                            try {
+                                const response = await fetch(`http://localhost:7004/api/v1/cart/677d11f3fbb51c2146710501`, {
+        
+                                    method: "PATCH",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                            "products":
+                                                [{ "productId": itemCart.productId, "deliveryOptionId": "1", "dateOrdered": date, "quantity": quany }]
+                                    })
+                                })
+                                const data = await response.json();
+                                console.log(data);
+                            } catch (error) {
+                                console.log(`There is an error: ${error.message}`)
+                            }
+                        };
+                        asyncFetch();//Async Wrapper
+                        navigate('/checkout')
+                    }}>
                         <img className="buy-again-icon" src="images/icons/buy-again.png" alt=""/>
                         <span className="buy-again-message">Buy it again</span>
                     </button>

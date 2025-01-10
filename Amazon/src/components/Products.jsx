@@ -42,7 +42,7 @@ export function Products({ product }) {
 
             <div className="product-spacer"></div>
             {product.extraInfoHTML()}
-            <div className="added-to-cart added-to-cart-${product.id}">
+            <div className={`added-to-cart added-to-cart-${product.id}`}>
                 <img src="images/icons/checkmark.png" />
                 Added
             </div>
@@ -68,6 +68,15 @@ export function Products({ product }) {
                     }
                 };
                 asyncFetch();//Async Wrapper
+
+                let timeoutId;
+                document.querySelector(`.added-to-cart-${product.id}`).classList.add('added');//You can use back-ticks to insert a value
+                if (timeoutId) {
+                    clearTimeout(timeoutId); // If the timeoutId is already set, clear it .
+                }
+                timeoutId = setTimeout(()=>{//This code is used to show the added message for only 2 seconds
+                    document.querySelector(`.added-to-cart-${product.id}`).classList.remove('added');
+                },2000);
             }}>
                 Add to Cart
             </button>

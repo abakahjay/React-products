@@ -70,6 +70,65 @@ export function OrderSummary({pro,setRefresh}) {
 
 
     // userData.product&&console.log(product)
+    // console.log(pro)
+
+
+    function ChangeQuantity(){
+        const quantity = Number(document.querySelector(`.quantity-input-${pro.productId}`).value);
+        if(quantity<=0){
+            return;
+        }
+        const asyncFetch = async () => {
+            try {
+                const response = await fetch(`http://localhost:7004/api/v1/cart/677d11f3fbb51c2146710501/${pro.productId}/${quantity}`, {
+
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                })
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.log(`There is an error: ${error.message}`)
+            }
+        };
+        asyncFetch();//Async Wrapper
+        const link=document.querySelector(`.link-${pro.productId}`)
+        // eslint-disable-next-line no-unused-vars
+        let idea;
+        document.querySelectorAll(`.save-quantity-link-${pro.productId}`).forEach((show)=>{
+            show.classList.add("see");
+            idea=setTimeout(()=>{
+                if(show.classList!=="see"){
+                    show.classList.remove("see");
+                    link.classList.remove("hide");
+                }else console.warn("Could you not");
+            },1);
+            
+        });
+
+        console.log(quantity)
+    }
+
+    function DeleteProduct(){
+        const asyncFetch = async () => {
+            try {
+                const response = await fetch(`http://localhost:7004/api/v1/cart/677d11f3fbb51c2146710501/${pro.productId}/`, {
+
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                })
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.log(`There is an error: ${error.message}`)
+            }
+        };
+        asyncFetch();//Async Wrapper
+    }
+
+
+
+
     return <>
         <div className="cart-item-container js-cart-item-container-${matchingProduct.id}">
             <div className="delivery-date">
@@ -95,14 +154,39 @@ export function OrderSummary({pro,setRefresh}) {
                                             {pro.quantity}
                                     </span>
                         </span>
-                        <span className="update-quantity-link link-primary" data-product-id="${matchingProduct.id}">
+                        <span className={`update-quantity-link link-primary link-${pro.productId}`} data-product-id={`${pro.productId}`} onClick={(e)=>{
+                            let idea;
+                            const link = e.target;
+                            const productId = pro.productId;
+                            // const container = document.querySelector(`.js-cart-item-container-${productId}`);
+                            link.classList.add('hide');
+                            document.querySelectorAll(`.save-quantity-link-${productId}`).forEach((show)=>{
+                                show.classList.add("see");
+                                idea=setTimeout(()=>{
+                                    if(show.classList!=="see"){
+                                        show.classList.remove("see");
+                                        link.classList.remove("hide");
+                                    }else console.warn("Error in the update listeners");
+                                },10000);
+                                
+                            });
+                            console.log(idea)
+                        }}>
                             Update
                         </span>
-                        <input className="quantity-input  save-quantity-link  save-quantity-link-${matchingProduct.id} quantity-input-${matchingProduct.id}" data-product-id="${matchingProduct.id}" />
-                        <span className="save-quantity-link  link-primary save-quantity-link-${matchingProduct.id}  saving" data-product-id="${matchingProduct.id}">
+                        <input className={`quantity-input  save-quantity-link  save-quantity-link-${pro.productId} quantity-input-${pro.productId}`} data-product-id={`${pro.productId}`} onKeyDown={(event)=>{
+                            if (event.key==='Enter') {
+                                ChangeQuantity()
+                            };
+                        }}/>
+                        <span className={`save-quantity-link  link-primary save-quantity-link-${pro.productId}  saving`} data-product-id={`${pro.productId}`} onClick={()=>{
+                            ChangeQuantity()
+                        }}>
                             Save
                         </span>
-                        <span className="delete-quantity-link link-primary delete-link-${matchingProduct.id}" data-product-id="${matchingProduct.id}">
+                        <span className={`delete-quantity-link link-primary delete-link-${pro.productId}`} data-product-id={`${pro.productId}`} onClick={()=>{
+                            DeleteProduct()
+                        }}>
                             Delete
                         </span>
 
@@ -120,7 +204,6 @@ export function OrderSummary({pro,setRefresh}) {
                 </div>
             </div>
         </div>
-        {/* </div> */}
     </>
 }
 
