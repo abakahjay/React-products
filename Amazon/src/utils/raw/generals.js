@@ -1,96 +1,136 @@
 import { ProductsContainer } from "../../components/ProductsContainer.jsx";
-import { useState } from "react";
-// import { renderProductsGrid } from "./amazon.js";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useFetchProducts } from "../hooks/useFetchProducts.js";
 
+export function Generals() {
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [searchItems, setSearchItems] = useState([]);
+    const searchBarRef = useRef(null);
+    const searchButtonRef = useRef(null);
+    const { userData, loading, error } = useFetchProducts();
 
-export function Generals(searchBar,searchButton){
-    const [productse,setProducts] = useState({})
-    const {userData,loading,error}=useFetchProducts()
-    useEffect(() =>{
-        if(!error&& userData.nbHits && !loading&&userData.products[0]){
-            setProducts(userData.products)
-        }
-    },[error,loading,userData])
-    const products=productse;
-    products[0]&&console.log(products)
-    let searchItems = [];//All the query(searched words) will be placed in this array
+    // Load search items from localStorage
+    const loadFromStorage = () => {
+        const storedItems = JSON.parse(localStorage.getItem("searchItems")) || [];
+        setSearchItems(storedItems);
+        console.log("Loaded from storage:", storedItems);
+    };
 
-    // Load search items from local storage
-    function loadFromStorage() {
-        searchItems = JSON.parse(localStorage.getItem('searchItems')) || [];
-    }
+    // Save search items to localStorage
+    const saveToStorage = (items) => {
+        localStorage.setItem("searchItems", JSON.stringify(items));
+        console.log("Saved to storage:", items);
+    };
 
-    // Save search items to local storage
-    function saveToStorage() {
-        localStorage.setItem('searchItems', JSON.stringify(searchItems));
-    }
-
-    // Perform search and update the UI
-    function performSearch(query) {
-        const searched = products[0]&&products.filter((product) =>//We can use the filter and some to the filter
-            product.keywords.some(keyword => keyword.includes(query))
+    // Perform search and update filtered products
+    const performSearch = (query) => {
+        console.log("Performing search for:", query);
+        const searched = products.filter((product) =>
+            product.keywords.some((keyword) => keyword.includes(query))
         );
+        console.log("Search Results:", searched);
+        setFilteredProducts(searched);
+    };
 
-        if (!query || searched.length === 0) {
-            const message = query
-                ? `Sorry, no results for: ${query}. Please check spelling or try a single keyword.`
-                : "No products found.";
-            document.querySelector('.js-products-grid').innerHTML = `
-                <div style="font-size: 20px; text-align: center;">
-                    <p>${message}</p>
-                </div>`;
-        } else {
-            ProductsContainer(searched);
-            console.log(searched);
-            console.log(query);
-        }
-    }
-
-    // Update URL with the search query
-    function updateURL(query) {
-        const baseURL = '/';
+    // Update URL with search query
+    const updateURL = (query) => {
+        const baseURL = "/My-Code/amazon.html";
         const newURL = `${baseURL}?search=${encodeURIComponent(query)}`;
-        window.location.href = newURL;
-    }
+        window.history.pushState({}, "", newURL);
+        console.log("Updated URL:", newURL);
+    };
 
-    // Handle search button click or Enter key
-    function handleSearch() {
-        // const searchBar = document.querySelector('.search-bar');
-        const query = searchBar.value.trim().toLowerCase();
+    // Handle search on button click or Enter key
+    const handleSearch = () => {
+        const query = searchBarRef.current.value.trim().toLowerCase();
+        console.log("Search Query:", query);
         if (!query) return;
 
-        searchItems = [query];//It resets the array every time to  be equal to the query
-        saveToStorage();//And this will update the local storage every time
-        updateURL(query); // Redirect to the new URL with the search query
-        
-    }
+        const updatedSearchItems = [query];
+        setSearchItems(updatedSearchItems);
+        saveToStorage(updatedSearchItems);
+        updateURL(query);
+        performSearch(query);
+    };
 
-    // Initialize search logic and events
-    function initializeSearch() {
+    // Fetch products on initial load and handle errors
+    useEffect(() => {
+        console.log("Fetched Data:", userData);
+        if (!error && userData?.products?.length > 0) {
+            setProducts(userData.products);
+            setFilteredProducts(userData.products); // Initialize filtered products
+        }
+    }, [userData, error]);
+
+    // Initialize search logic and event listeners
+    useEffect(() => {
         loadFromStorage();
 
-        // const searchBar = document.querySelector('.search-bar');
-        // const searchButton = document.querySelector('.search-button');
+        const searchBar = searchBarRef.current;
+        const searchButton = searchButtonRef.current;
 
         // Parse query from URL if present
-        const urlParams = new URLSearchParams(window.location.search);//We can use this directly instead of the URL class itself
-        const query = urlParams.get('search');
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get("search");
         if (query) {
             searchBar.value = query;
             performSearch(query.toLowerCase());
         }
 
-        // Add event listeners
-        searchButton.addEventListener('click', handleSearch);
-        searchBar.addEventListener('keydown', event => {
-            if (event.key === 'Enter') handleSearch();
-        });
-    }
-    loadFromStorage();
-    console.log(searchItems);
-    // Initialize everything once products are loaded
-    initializeSearch();
-}
+        // Event listener for search button and Enter key
+        const handleKeyDown = (event) => {
+            if (event.key === "Enter") handleSearch();
+        };
 
+        searchButton.addEventListener("click", handleSearch);
+        searchBar.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            // Cleanup event listeners
+            searchButton.removeEventListener("click", handleSearch);
+            searchBar.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [products]);
+
+    return (
+        <div>
+            <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                <input
+                    type="text"
+                    placeholder="Search products..."
+                    ref={searchBarRef}
+                    aria-label="Search products"
+                    style={{ flex: 1, padding: "10px", fontSize: "16px" }}
+                />
+                <button
+                    ref={searchButtonRef}
+                    style={{
+                        padding: "10px 20px",
+                        fontSize: "16px",
+                        backgroundColor: "#007BFF",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                    }}
+                >
+                    Search
+                </button>
+            </div>
+
+            {loading && <p>Loading products...</p>}
+            {error && <p>Error loading products. Please try again.</p>}
+
+            {!loading && filteredProducts.length === 0 && (
+                <p style={{ textAlign: "center", fontSize: "20px" }}>
+                    No products found.
+                </p>
+            )}
+
+            {!loading && filteredProducts.length > 0 && (
+                <ProductsContainer products={filteredProducts} />
+            )}
+        </div>
+    );
+}

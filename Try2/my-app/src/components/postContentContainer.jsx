@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { PostContent } from "./postContent";
+import { PostContent } from "./postContent.jsx";
 import { UserContext } from "../utils/contexts/userContext.js";
 
 export function PostContentContainer(){

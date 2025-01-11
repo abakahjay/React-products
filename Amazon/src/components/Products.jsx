@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import dayJs from "dayjs";
-const today=new dayJs()
+const today=new dayJs();
 const date=today.format('ddd, D MMMM YYYY');
 
 export function Products({ product }) {
