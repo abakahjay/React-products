@@ -36,8 +36,6 @@ export default defineConfig({
     setupFiles: './setupTests.js',
   }
 })
-
-
 // Regular Colors
 // console.log('\x1b[31m%s\x1b[0m', 'This is red');       // Red text
 // console.log('\x1b[32m%s\x1b[0m', 'This is green');     // Green text
@@ -57,4 +55,5 @@ export default defineConfig({
 
 // // Reset Style
 // console.log('\x1b[0m%s\x1b[0m', 'This is normal again'); // Reset style
+
 
