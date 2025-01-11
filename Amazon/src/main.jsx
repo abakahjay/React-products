@@ -7,6 +7,13 @@ import {Checkout} from './pages/Checkout.jsx'
 import { Tracking } from './pages/Tracking.jsx';
 import {Orders} from './pages/Orders.jsx';
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then((registration) => {
+    console.log('Service Worker registered:', registration);
+  }).catch((error) => {
+    console.error('Service Worker registration failed:', error);
+  });
+}
 
 
 const router = createBrowserRouter([

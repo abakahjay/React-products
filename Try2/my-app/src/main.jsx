@@ -7,6 +7,13 @@ import { UsersPage } from './pages/UsersPage.jsx';
 import { BlogPost } from './pages/BlogPost.jsx';
 //We can also import React and ReactDOM from the modules above without the curly braises
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then((registration) => {
+    console.log('Service Worker registered:', registration);
+  }).catch((error) => {
+    console.error('Service Worker registration failed:', error);
+  });
+}
 
 const router = createBrowserRouter([
   {
