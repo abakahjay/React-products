@@ -57,4 +57,4 @@ export default defineConfig({
 // console.log('\x1b[0m%s\x1b[0m', 'This is normal again'); // Reset style
 
 
-//npm install chakra-ui/icons chakra-ui/react
+//npm install @chakra-ui/icons @chakra-ui/react
