@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import './main.css';//This si for thw styles
+import './main.css';//This is for the styles
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 //We can also import React and ReactDOM from the modules above without the curly braises
 if ('serviceWorker' in navigator) {
