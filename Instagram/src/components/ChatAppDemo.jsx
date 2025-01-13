@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:7004'); // Replace with your backend's URL
+const socket = io('http://localhost:7004',{
+    reconnection: true, // Enable reconnection
+    reconnectionAttempts: 5, // Maximum reconnection attempts
+    reconnectionDelay: 5000, // Delay between attempts
+}); // Replace with your backend's URL
 
 const ChatApp = ({ userId, recipientId }) => {
     const [message, setMessage] = useState('');
@@ -20,9 +24,13 @@ const ChatApp = ({ userId, recipientId }) => {
                 setMessages((prevMessages) => [...prevMessages, newMessage]);
             }
         });
+        socket.on('connect_error', (err) => {
+            console.error('Connection Error:', err.message);
+            console.error('Details:', err);
+        });
 
         return () => {
-            socket.disconnect(); // Clean up socket connection on unmount
+            socket.off('receiveMessage'); // Unsubscribe from the event
         };
     }, [userId, recipientId]);
 
