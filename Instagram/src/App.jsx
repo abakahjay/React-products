@@ -9,9 +9,6 @@ import { logoutUser } from "./utils/auth";
 import API from "./utils/api";
 import {ProfilePage} from './pages/ProfilePage/ProfilePage';
 
-
-
-
 export default function App(){
     const [authUser, setAuthUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -52,10 +49,10 @@ export default function App(){
         {
             path: '/auth',
             element: (
-                <PageLayout>
+                <>
                     {!authUser ? <Authpage onAuth={setAuthUser} /> : <Navigate to="/" />}
-                    {/* <Authpage onAuth={setAuthUser}/> */}
-                </PageLayout>
+                    
+                </>
             ),
         },
         {
@@ -76,7 +73,7 @@ export default function App(){
     return <>
             {/* THis is for Creating Routes and Pages */}
             <RouterProvider router={router} />
-            <ChatApp/>
+            {/* <ChatApp/> */}
             {/* <Button>
                 Hello World
             </Button> */}

@@ -1,48 +1,28 @@
+import { Container, Flex, VStack, Box, Image } from "@chakra-ui/react";
+import {AuthForm} from "./AuthForm";
 
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../../utils/auth";
+export function Authpage({onAuth}){
+	return (
+		<Flex minH={"100vh"} justifyContent={"center"} alignItems={"center"} px={4}>
+			<Container maxW={"container.md"} padding={0}>
+				<Flex justifyContent={"center"} alignItems={"center"} gap={10}>
+					{/* Left hand-side */}
+					<Box display={{ base: "none", md: "block" }}>
+						<Image src='/auth.png' h={650} alt='Phone img' />
+					</Box>
 
-export function Authpage ({ onAuth }){
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isRegistering, setIsRegistering] = useState(false);
-    const navigate = useNavigate();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const user = isRegistering
-                ? await registerUser(email, password)
-                : await loginUser(email, password);
-            onAuth(user);
-            navigate("/");
-        } catch (err) {
-            console.error("Authentication error:", err.message);
-        }
-    };
-
-    return (
-        <div>
-            <h1>{isRegistering ? "Register" : "Login"}</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">{isRegistering ? "Register" : "Login"}</button>
-            </form>
-            <button onClick={() => setIsRegistering(!isRegistering)}>
-                {isRegistering ? "Switch to Login" : "Switch to Register"}
-            </button>
-        </div>
-    );
+					{/* Right hand-side */}
+					<VStack spacing={4} align={"stretch"}>
+						<AuthForm onAuth={onAuth}/>
+						<Box textAlign={"center"}>Get the app.</Box>
+						<Flex gap={5} justifyContent={"center"}>
+							<Image src='/playstore.png' h={"10"} alt='Playstore logo' />
+							<Image src='/microsoft.png' h={"10"} alt='Microsoft logo' />
+						</Flex>
+					</VStack>
+				</Flex>
+			</Container>
+		</Flex>
+	);
 };
+
