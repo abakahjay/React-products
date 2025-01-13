@@ -12,7 +12,6 @@ export const registerUser = async (email, password,firstName,lastName,username) 
     return data;
 };
 
-export const logoutUser = async () => {
-    console.log(data);
-    await API.post("/api/v1/auth/logout");
+export const logoutUser = async (userId) => {
+    await API.post(`/api/v1/auth/logout?userId=${userId}`);
 };

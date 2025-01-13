@@ -18,7 +18,7 @@ export default function Login({onAuth}) {
                     localStorage.setItem(`token`, user.token);
                     navigate(`/?userId=${user.userId}&token=${user.token}`);
                 } catch (err) {
-                    console.error("Authentication error:", err.message);
+                    console.warn("Login Authentication error:", err.response.data);
                 }
             };
     return (

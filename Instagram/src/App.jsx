@@ -34,8 +34,12 @@ export default function App(){
         fetchAuthUser();
     }, []);
 
-    const handleLogout = async () => {
-        await logoutUser();
+    const handleLogout = async (userId) => {
+        await logoutUser(userId)
+        .catch((error)=>{
+            console.log(error)
+        });
+        localStorage.removeItem('token')
         setAuthUser(null);
     };
 
@@ -63,7 +67,7 @@ export default function App(){
         {
             path: '/:username',
             element: (
-                <PageLayout authUser={authUser}>
+                <PageLayout authUser={authUser} onLogout={handleLogout}>
                     {authUser ? <ProfilePage /> : <Navigate to="/auth" />}
                     {/* <ProfilePage authUser={authUser} /> */}
                 </PageLayout>
