@@ -3,11 +3,11 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 // import { Button } from "@chakra-ui/react"
 import {Homepage} from './pages/Homepage/Homepage'
 import { Authpage } from "./pages/Authpage/Authpage.jsx";
-import {PageLayout} from "./Layouts/PageLayouts/PageLayout.jsx";
+import PageLayout from "./Layouts/PageLayouts/PageLayout.jsx";
 import { useEffect, useState } from "react";
 import { logoutUser } from "./utils/auth";
 import API from "./utils/api";
-import ProfilePage from './pages/ProfilePage/ProfilePage';
+import {ProfilePage} from './pages/ProfilePage/ProfilePage';
 
 
 
@@ -43,7 +43,7 @@ export default function App(){
         {
             path: '/',
             element: (
-                <PageLayout>
+                <PageLayout authUser={authUser} onLogout={handleLogout}>
                     {authUser ? <Homepage  authUser={authUser}/> : <Navigate to="/auth" />}
                     {/* <Homepage authUser={authUser}/> */}
                 </PageLayout>
@@ -76,7 +76,7 @@ export default function App(){
     return <>
             {/* THis is for Creating Routes and Pages */}
             <RouterProvider router={router} />
-            {/* <ChatApp/> */}
+            <ChatApp/>
             {/* <Button>
                 Hello World
             </Button> */}
