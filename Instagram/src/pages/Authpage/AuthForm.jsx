@@ -3,6 +3,7 @@ import { useState } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 import GoogleAuth from "./GoogleAuth";
+//Everything is in pixels
 
 export function AuthForm({onAuth}){
     const [isLogin, setIsLogin] = useState(true);
@@ -28,7 +29,7 @@ export function AuthForm({onAuth}){
                 </VStack>
             </Box>
 
-            <Box border={"1px solid gray"} borderRadius={4} padding={5}>
+            <Box border={"1px solid gray"} borderRadius={4} padding={3}>
                 <Flex alignItems={"center"} justifyContent={"center"}>
                     <Box mx={2} fontSize={14}>
                         {isLogin ? "Don't have an account?" : "Already have an account?"}

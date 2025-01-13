@@ -78,7 +78,7 @@ export default function App(){
     return <>
             {/* THis is for Creating Routes and Pages */}
             <RouterProvider router={router} />
-            <ChatApp/>
+            {/* <ChatApp/> */}
             {/* <Button>
                 Hello World
             </Button> */}
