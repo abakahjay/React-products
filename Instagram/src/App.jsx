@@ -2,14 +2,12 @@ import ChatApp from "./components/ChatAppDemo";
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 // import { Button } from "@chakra-ui/react"
 import {Homepage} from './pages/Homepage/Homepage'
-import { Authpage } from "./pages/Authpage.jsx/Authpage";
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { auth } from "./firebase/firebase";
+import { Authpage } from "./pages/Authpage/Authpage.jsx";
 import {PageLayout} from "./Layouts/PageLayouts/PageLayout.jsx";
 import { useEffect, useState } from "react";
 import { logoutUser } from "./utils/auth";
 import API from "./utils/api";
-// import ProfilePage from './pages/ProfilePage/ProfilePage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 
 
@@ -46,8 +44,8 @@ export default function App(){
             path: '/',
             element: (
                 <PageLayout>
-                    {/* {authUser ? <Homepage  authUser={authUser}/> : <Navigate to="/auth" />} */}
-                    <Homepage authUser={authUser}/>
+                    {authUser ? <Homepage  authUser={authUser}/> : <Navigate to="/auth" />}
+                    {/* <Homepage authUser={authUser}/> */}
                 </PageLayout>
             ),
         },
@@ -55,8 +53,8 @@ export default function App(){
             path: '/auth',
             element: (
                 <PageLayout>
-                    {/* {!authUser ? <Authpage onAuth={setAuthUser} /> : <Navigate to="/" />} */}
-                    <Authpage onAuth={setAuthUser}/>
+                    {!authUser ? <Authpage onAuth={setAuthUser} /> : <Navigate to="/" />}
+                    {/* <Authpage onAuth={setAuthUser}/> */}
                 </PageLayout>
             ),
         },
@@ -64,7 +62,7 @@ export default function App(){
             path: '/:username',
             element: (
                 <PageLayout authUser={authUser}>
-                    {/* {authUser ? <ProfilePage /> : <Navigate to="/auth" />} */}
+                    {authUser ? <ProfilePage /> : <Navigate to="/auth" />}
                     {/* <ProfilePage authUser={authUser} /> */}
                 </PageLayout>
             ),
@@ -78,7 +76,7 @@ export default function App(){
     return <>
             {/* THis is for Creating Routes and Pages */}
             <RouterProvider router={router} />
-            <ChatApp/>
+            {/* <ChatApp/> */}
             {/* <Button>
                 Hello World
             </Button> */}
