@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Alert, AlertIcon, Button, Input } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../../utils/auth";
+import { loginUser} from "../../utils/auth";
 export default function Login({onAuth}) {
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
-        const [username, setUsername] = useState("");
-        const [firstName, setFirstName] = useState("");
-        const [lastName, setLastName] = useState("");
-        const [isRegistering, setIsRegistering] = useState(false);
         const error ={message: "Login failed"}
         const loading =false;
         const navigate = useNavigate()
@@ -16,11 +12,10 @@ export default function Login({onAuth}) {
         const handleSubmit = async (e) => {
                 e.preventDefault();
                 try {
-                    const user = isRegistering
-                        ? await registerUser(email, password,firstName,lastName,username)
-                        : await loginUser(email, password);
+                    const user = await loginUser(email, password);
                     onAuth(user);
                     console.log(user)
+                    localStorage.setItem(`token`, user.token);
                     navigate(`/?userId=${user.userId}&token=${user.token}`);
                 } catch (err) {
                     console.error("Authentication error:", err.message);

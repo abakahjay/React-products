@@ -12,15 +12,20 @@ import {ProfilePage} from './pages/ProfilePage/ProfilePage';
 export default function App(){
     const [authUser, setAuthUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const token= localStorage.getItem('token');
+    // if(!token&&!authUser){
+    //     Navigate
+    // }
     useEffect(() => {
         const fetchAuthUser = async () => {
             try {
-                const { data } = await API.get("/api/v1/auth/dashboard");
-                console.log(data)
+                const { data } = await API.get("/api/v1/auth/dashboard",{
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                // console.log(data)
                 setAuthUser(data.user);
             } catch(error) {
-                console.log(error)
+                console.warn(error.response.data)
                 setAuthUser(null);
             } finally {
                 setLoading(false);
@@ -73,7 +78,7 @@ export default function App(){
     return <>
             {/* THis is for Creating Routes and Pages */}
             <RouterProvider router={router} />
-            {/* <ChatApp/> */}
+            <ChatApp/>
             {/* <Button>
                 Hello World
             </Button> */}
