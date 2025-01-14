@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 // import useAuthStore from "../../store/authStore";
 // let authUser;
 const ProfileLink = ({authUser,onLogout}) => {
+	const user=authUser.user?authUser.user:authUser
 	// const authUser = useAuthStore((state) => state.user);
 
 	return (
@@ -16,7 +17,7 @@ const ProfileLink = ({authUser,onLogout}) => {
 		>
 			<Link
 				display={"flex"}
-				to={`/${authUser?.username}`}
+				to={`/${user.username}`}
 				as={RouterLink}
 				alignItems={"center"}
 				gap={4}

@@ -6,7 +6,8 @@ import ProfilePosts from "../../components/Profile/ProfilePosts";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export function ProfilePage ({onAuth,onLogout}){
+export function ProfilePage ({authUser,onLogout}){
+    const user=authUser.user?authUser.user:authUser
     const [isLoading,setIsLoading] =useState(true)
         useEffect(() =>{
             setTimeout(() =>{
@@ -20,7 +21,7 @@ export function ProfilePage ({onAuth,onLogout}){
     return <Container maxW={'container.lg'} py={5}>
             {/* Profile of {username } */}
             <Flex py={10} px={4} pl={{ base: 4, md: 10 }} w={"full"} mx={"auto"} flexDirection={"column"}>
-                {!isLoading && <ProfileHeader />}
+                {!isLoading && <ProfileHeader authUser={authUser} onLogout={onLogout} username={username} />}
                 {isLoading && <ProfileHeaderSkeleton />}
             </Flex>
             <Flex
