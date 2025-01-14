@@ -33,7 +33,7 @@ export function ProfilePage ({authUser,onLogout}){
 				direction={"column"}
 			>
 				<ProfileTabs />
-				<ProfilePosts />
+				<ProfilePosts user={user}/>
 			</Flex>
         </Container>;
 };
