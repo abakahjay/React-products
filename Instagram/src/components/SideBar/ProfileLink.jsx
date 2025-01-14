@@ -1,7 +1,7 @@
 import { Avatar, Box, Link, Tooltip } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 // import useAuthStore from "../../store/authStore";
-let authUser;
+// let authUser;
 const ProfileLink = ({authUser,onLogout}) => {
 	// const authUser = useAuthStore((state) => state.user);
 
