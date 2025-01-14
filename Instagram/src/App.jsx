@@ -1,4 +1,4 @@
-import ChatApp from "./components/ChatAppDemo";
+import ChatApp from "./components/ChatApp/ChatAppDemo.jsx";
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 // import { Button } from "@chakra-ui/react"
 import {Homepage} from './pages/Homepage/Homepage'
