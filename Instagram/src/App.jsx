@@ -50,7 +50,7 @@ export default function App(){
             path: '/',
             element: (
                 <PageLayout authUser={authUser} onLogout={handleLogout}>
-                    {authUser ? <Homepage  authUser={authUser}/> : <Navigate to="/auth" />}
+                    {authUser ? <Homepage  authUser={authUser} onLogout={handleLogout}/> : <Navigate to="/auth" />}
                     {/* <Homepage authUser={authUser}/> */}
                 </PageLayout>
             ),
@@ -68,7 +68,7 @@ export default function App(){
             path: '/:username',
             element: (
                 <PageLayout authUser={authUser} onLogout={handleLogout}>
-                    {authUser ? <ProfilePage /> : <Navigate to="/auth" />}
+                    {authUser ? <ProfilePage /> : <Navigate to="/auth" onLogout={handleLogout}/>}
                     {/* <ProfilePage authUser={authUser} /> */}
                 </PageLayout>
             ),

@@ -4,14 +4,14 @@ import Notifications from "./Notifications";
 import ProfileLink from "./ProfileLink";
 import Search from "./Search";
 
-const SidebarItems = () => {
+const SidebarItems = ({authUser,onLogout}) => {
 	return (
 		<>
-			<Home />
-			<Search />
-			<Notifications />
-			<CreatePost />
-			<ProfileLink />
+			<Home authUser={authUser} onLogout={onLogout} />
+			<Search authUser={authUser} onLogout={onLogout}/>
+			<Notifications authUser={authUser} onLogout={onLogout}/>
+			<CreatePost authUser={authUser} onLogout={onLogout}/>
+			<ProfileLink authUser={authUser} onLogout={onLogout} />
 		</>
 	);
 };

@@ -36,7 +36,7 @@ export function SideBar({ authUser, onLogout}){
                         <InstagramMobileLogo />
                     </Link>
                     <Flex direction={"column"} gap={5} cursor={"pointer"}>
-                        <SidebarItems />
+                        <SidebarItems authUser={authUser} onLogout={onLogout} />
                     </Flex>
 
 

@@ -2,7 +2,7 @@ import { Avatar, Box, Link, Tooltip } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 // import useAuthStore from "../../store/authStore";
 let authUser;
-const ProfileLink = () => {
+const ProfileLink = ({authUser,onLogout}) => {
 	// const authUser = useAuthStore((state) => state.user);
 
 	return (
@@ -16,7 +16,7 @@ const ProfileLink = () => {
 		>
 			<Link
 				display={"flex"}
-				// to={`/${authUser?.username}`}
+				to={`/${authUser?.username}`}
 				as={RouterLink}
 				alignItems={"center"}
 				gap={4}
