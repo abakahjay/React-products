@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 
 const ProfilePosts = ({user}) => {
+    // console.log(user)
     const [isFollowing,setIsFollowing] = useState(false)
     const [isLoading,setIsLoading]=useState(true);
     useEffect(()=>{
@@ -25,7 +26,7 @@ const ProfilePosts = ({user}) => {
 
 
 	const noPostsFound = !isLoading && user.posts.length === 0;
-	// if (noPostsFound) return <NoPostsFound />;
+	if (noPostsFound) return <NoPostsFound />;
 
 	return (
 		<Grid
@@ -47,9 +48,9 @@ const ProfilePosts = ({user}) => {
 
 			{!isLoading && (
 				<>
-					{[0,1,2,3].map((post) => (
-						<ProfilePost post={post} key={post.id} />
-					))}
+					{user.posts.map((post) => (
+            <ProfilePost post={post} key={post} />
+          ))}
           {/* {user.posts.map((post) => (
 						<ProfilePost post={post} key={post.id} />
 					))} */}

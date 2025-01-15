@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Alert, AlertIcon, Button, Input } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { loginUser} from "../../utils/auth";
+import useAuthStore from '../../store/useAuthStore';
+
+
 export default function Login({onAuth}) {
+		// const { login, isLoading, error } = useAuthStore();
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
         const error ={message: "Login failed"}

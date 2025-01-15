@@ -1,9 +1,13 @@
 import { Avatar, AvatarGroup, Button, Flex, Text, VStack, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState ,useRef} from "react";
 import EditProfile from "./EditProfile";
-import { useParams } from "react-router-dom";
+import { ProfileUrl } from "../../utils/imageUrl";
 export default function ProfileHeader({authUser,onLogout,username}) {
   const user=authUser.user?authUser.user:authUser
+
+  
+    const url =user.profile_picture_id?ProfileUrl(user.profile_picture_id):'';
+
     const [isFollowing,setIsFollowing] = useState(false)
     const [isLoading,setIsLoading]=useState(true);
     useEffect(()=>{
@@ -28,7 +32,6 @@ export default function ProfileHeader({authUser,onLogout,username}) {
       // let visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
       let visitingAnotherProfileAndAuth ;
       // let visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
-    console.log(user)
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -36,7 +39,7 @@ export default function ProfileHeader({authUser,onLogout,username}) {
   return (
       <Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
           <AvatarGroup size={{ base: "xl", md: "2xl" }} justifySelf={"center"} alignSelf={"flex-start"} mx={"auto"}>
-              <Avatar src={'/img1.png'} alt='As a programmer logo' />
+              <Avatar src={url} alt='As a programmer logo' />
           </AvatarGroup>
           {/* Profile Information */}
           <VStack alignItems={"start"} gap={2} mx={"auto"} flex={1}>

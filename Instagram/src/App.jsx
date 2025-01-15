@@ -1,6 +1,6 @@
 import ChatApp from "./components/ChatApp/ChatAppDemo.jsx";
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-// import { Button } from "@chakra-ui/react"
+// import { QueryClient, QueryClientProvider } from 'react-query';
 import {Homepage} from './pages/Homepage/Homepage'
 import { Authpage } from "./pages/Authpage/Authpage.jsx";
 import PageLayout from "./Layouts/PageLayouts/PageLayout.jsx";

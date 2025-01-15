@@ -4,7 +4,7 @@ import {NotificationsLogo,UnlikeLogo,CommentLogo}from '../../assets/constants.js
 
 
 
-export default function PostFooter({username}) {
+export default function PostFooter({username,isProfilePage}) {
     const [liked,setLiked] = useState(false)
     const [likes,setLikes] = useState(1000)
     const commentRef = useRef(null);
@@ -35,15 +35,19 @@ export default function PostFooter({username}) {
 			</Text>
 
 
-            <Text fontSize={12} fontWeight={'bold'} gap={2}>
-                    {username}_{"  "}
-                    <Text as={'span'} color={'gray.500'} fontWeight={400}>
-                        Feeling Good
+            {!isProfilePage&&(
+                <>
+                    <Text fontSize={12} fontWeight={'bold'} gap={2}>
+                        {username}_{"  "}
+                        <Text as={'span'} color={'gray.500'} fontWeight={400}>
+                            Feeling Good
+                        </Text>
                     </Text>
-            </Text>
-            <Text fontSize={'sm'} color={'gray'}>
-                View All 1000 Comments
-            </Text>
+                    <Text fontSize={'sm'} color={'gray'}>
+                        View All 1000 Comments
+                    </Text>
+                </>
+            )}
 
 
             <Flex alignItems={'center'} justifyContent={'space-between'} gap={2} w={'full'}>
