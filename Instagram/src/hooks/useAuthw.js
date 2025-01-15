@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useAuthStore from '../store/useAuthStore';
 
 const useAuth = () => {
-    const { user, login, signup, logout } = useAuthStore();
+    const { user, loginUser, registerUser, logoutUser } = useAuthStore();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -10,28 +10,35 @@ const useAuth = () => {
         user,
         isLoading,
         error,
-        login: async (credentials) => {
+        loginUser: async (email, password) => {
             setIsLoading(true);
             try {
-                await login(credentials);
+                await loginUser(email, password);
                 setIsLoading(false);
             } catch (err) {
                 setError(err.response?.data?.error || 'Login failed');
                 setIsLoading(false);
             }
         },
-        signup: async (userData) => {
+        registerUser: async (email, password,firstName,lastName,username) => {
             setIsLoading(true);
             try {
-                await signup(userData);
+                await registerUser(email, password,firstName,lastName,username);
                 setIsLoading(false);
             } catch (err) {
                 setError(err.response?.data?.error || 'Signup failed');
                 setIsLoading(false);
             }
         },
-        logout: () => {
-            logout();
+        logoutUser: async(userId) => {
+            setIsLoading(true)
+            try {
+                await logoutUser(userId);
+                setIsLoading(false);
+            } catch (err) {
+                setError(err.response?.data?.error || 'Logout failed');
+                setIsLoading(false);
+            }
         }
     };
 };

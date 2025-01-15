@@ -2,28 +2,35 @@ import React, { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Alert, AlertIcon, Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import {registerUser } from "../../utils/auth";
+// import {registerUser } from "../../utils/auth";
+import useAuth from "../../hooks/useAuthw";
 export default function Signup({onAuth}) {
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
         const [username, setUsername] = useState("");
         const [firstName, setFirstName] = useState("");
         const [lastName, setLastName] = useState("");
-        const error ={message: "Signup failed"}
-        const loading =false;
         const navigate = useNavigate();
         const [showPassword, setShowPassword] = useState(false);
+		const {registerUser,error,user,isLoading,logoutUser,loginUser}=useAuth()
+
+		// console.log({registerUser,error,user,isLoading,logoutUser,loginUser})
+
+        // const error ={message: "Signup failed"}
+
         const handleSubmit = async (e) => {
                 e.preventDefault();
-                try {
-                    const user =await registerUser(email, password,firstName,lastName,username)
+                // try {
+                    registerUser(email, password,firstName,lastName,username)
                     onAuth(user);
                     console.log(user)
-                    localStorage.setItem(`token`, user.token);
-                    navigate(`/?userId=${user.userId}&token=${user.token}`);
-                } catch (err) {
-                    console.error("Authentication error:", err.message);
-                }
+					if (user){
+						localStorage.setItem(`token`, user.token);
+						navigate(`/?userId=${user.userId}&token=${user.token}`);
+					}
+                // } catch (err) {
+                //     console.error("Signup error:", err.message);
+                // }
         };
     return (
         <>
@@ -85,7 +92,7 @@ export default function Signup({onAuth}) {
 				colorScheme='blue'
 				size={"sm"}
 				fontSize={14}
-				isLoading={loading}
+				isLoading={isLoading}
 				onClick={(e) => handleSubmit(e)}
 			>
 				Sign Up
