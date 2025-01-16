@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Alert, AlertIcon, Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 // import {registerUser } from "../../utils/auth";
 import useAuth from "../../hooks/useAuthw";
+import useAuthStore from "../../store/useAuthStore";
 export default function Signup({onAuth}) {
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
@@ -12,7 +13,8 @@ export default function Signup({onAuth}) {
         const [lastName, setLastName] = useState("");
         const navigate = useNavigate();
         const [showPassword, setShowPassword] = useState(false);
-		const {registerUser,error,user,isLoading,logoutUser,loginUser}=useAuth()
+		// const {registerUser,error,user,isLoading,logoutUser,loginUser}=useAuth()
+		const {registerUser,error,user,isLoading,logoutUser,loginUser}=useAuthStore();
 
 		// console.log({registerUser,error,user,isLoading,logoutUser,loginUser})
 
@@ -32,6 +34,7 @@ export default function Signup({onAuth}) {
                 //     console.error("Signup error:", err.message);
                 // }
         };
+		// console.log(error)
     return (
         <>
 			<Input
@@ -82,9 +85,10 @@ export default function Signup({onAuth}) {
 				</InputRightElement>
 			</InputGroup>
 			{error && (
-				<Alert status='error' fontSize={13} p={2} borderRadius={4}>
+				<Alert status='error' fontSize={13} p={2} borderRadius={4}maxW={300}>
 					<AlertIcon fontSize={12} />
-					{error.message}
+					<Text flexWrap={'wrap'}>{error}</Text>
+					
 				</Alert>
 			)}
 			<Button

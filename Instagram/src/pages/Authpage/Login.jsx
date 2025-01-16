@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { Alert, AlertIcon, Button, Input } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { loginUser} from "../../utils/auth";
-import useAuthStore from '../../store/useAuthStore';
+// import { loginUser} from "../../utils/auth";
 
-
+import useAuthStore from "../../store/useAuthStore";
+import useAuth from "../../hooks/useAuthw";
+import useShowToast from "../../hooks/useShowToast";
 export default function Login({onAuth}) {
-		// const { login, isLoading, error } = useAuthStore();
+		const { error,user,isLoading,loginUser} = useAuthStore();
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
-        const error ={message: "Login failed"}
-        const loading =false;
         const navigate = useNavigate()
+		const show =useShowToast()
 
-        const handleSubmit = async (e) => {
+        const handleSubmit = (e) => {
                 e.preventDefault();
-                try {
-                    const user = await loginUser(email, password);
-                    onAuth(user);
-                    console.log(user)
-                    localStorage.setItem(`token`, user.token);
-                    navigate(`/?userId=${user.userId}&token=${user.token}`);
-                } catch (err) {
-                    console.warn("Login Authentication error:", err.response.data);
-                }
-            };
+				loginUser(email, password);
+				onAuth(user);
+				console.log(user)
+				if(user){
+					localStorage.setItem(`token`, user.token);
+					navigate(`/?userId=${user.userId}&token=${user.token}`);
+				}
+				if(error){
+					show("Error", error, "error")
+				}
+		};
+
     return (
         <>
                 <Input
@@ -46,7 +48,7 @@ export default function Login({onAuth}) {
 			{error && (
 				<Alert status='error' fontSize={13} p={2} borderRadius={4}>
 					<AlertIcon fontSize={12} />
-					{error.message}
+					{error}
 				</Alert>
 			)}
 			<Button
@@ -54,7 +56,7 @@ export default function Login({onAuth}) {
 				colorScheme='blue'
 				size={"sm"}
 				fontSize={14}
-				isLoading={loading}
+				isLoading={isLoading}
 				onClick={(e) => handleSubmit(e)}
 			>
 				Log in
