@@ -30,7 +30,7 @@ const useSignup = () => {
             const userData = response.data;
             localStorage.setItem("user-info", JSON.stringify(userData));
             registerUser(userData); // Update Zustand state
-
+            setError(null)
             showToast("Success", "Signup successful", "success");
         } catch (err) {
             const message = err.response?.data?.error || "Signup failed";

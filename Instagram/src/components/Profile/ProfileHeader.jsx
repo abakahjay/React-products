@@ -50,7 +50,7 @@ export default function ProfileHeader({authUser,onLogout,username}) {
             alignItems={"center"}
             w={"full"}
           >
-            <Text fontSize={{ base: "sm", md: "lg" }}>{username}</Text>
+            <Text fontSize={{ base: "sm", md: "lg" }}>{user.username}</Text>
 
             {/* Display button depending on whether it is a the page owner or another user */}
             {visitingOwnProfileAndAuth=true && (

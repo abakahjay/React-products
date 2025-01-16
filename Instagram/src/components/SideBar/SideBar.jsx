@@ -4,8 +4,11 @@ import {InstagramMobileLogo,InstagramLogo} from '../../assets/constants.jsx'
 import { BiLogOut } from "react-icons/bi";
 // import useLogout from "../../hooks/useLogout";
 import SidebarItems from "./SidebarItems";
+import useLogout from '../../hooks/useLogout.js';
 export function SideBar({ authUser, onLogout}){
     const user=authUser?authUser.user||authUser:''
+
+    const {isLoading}=useLogout()
     return(
         <Box
             height={'100vh'}
@@ -65,7 +68,7 @@ export function SideBar({ authUser, onLogout}){
 							display={{ base: "none", md: "block" }}
 							variant={"ghost"}
 							_hover={{ bg: "transparent" }}
-							// isLoading={isLoggingOut}
+							isLoading={isLoading}
 						>
 							Logout
 						</Button>

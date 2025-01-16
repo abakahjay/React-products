@@ -7,20 +7,21 @@ import { useEffect, useState } from "react";
 import useAuthStore from "./store/useAuthStore.js";
 import API from "./utils/api";
 import {ProfilePage} from './pages/ProfilePage/ProfilePage';
+import useLogout from "./hooks/useLogout.js";
+import { Flex, Spinner } from "@chakra-ui/react";
+import useShowToast from "./hooks/useShowToast.js";
 
-// const navigate = useNavigate()
+
 export default function App(){
-    const [authUser, setAuthUser] = useState(null);
+    const showToast = useShowToast()
+    const {logout,isLoading} =useLogout()
+    const authUser= useAuthStore(state=>state.user)
+    const setAuthUser= useAuthStore((state)=>state.setAuthUser)
     const [loading, setLoading] = useState(true);
-    const token= localStorage.getItem('token');
     const {user}= useAuthStore();
     console.log(user)
 
-    if (user){
-        // localStorage.setItem(`token`, user.token);
-        // navigate(`/?userId=${user.userId}&token=${user.token}`);
-    }
-    useEffect(() => {
+        useEffect(() => {
         const fetchAuthUser = async () => {
             try {
                 const { data } = await API.get("/api/v1/auth/dashboard",{
@@ -29,6 +30,8 @@ export default function App(){
                 // console.log(data)
                 setAuthUser(data.user);
             } catch(error) {
+                const message = error.response?.data?.error ||error.message|| "Login failed";
+                showToast("Error", message, "error");
                 console.warn(error)
                 setAuthUser(null);
             } finally {
@@ -38,17 +41,13 @@ export default function App(){
         fetchAuthUser();
     }, []);
 
-    const handleLogout = async (userId) => {
-        console.log(userId)
-        await logoutUser(userId)
-        .catch((error)=>{
-            console.log(error)
-        });
-        localStorage.removeItem('token')
-        setAuthUser(null);
+    const handleLogout = (userId) => {
+        // console.log(userId)
+        logout(userId)
+        // return {isLoading}
     };
 
-    if (loading) return <div>Loading...</div>;
+    // if (loading) return <PageLayoutSpinner />
 
 
 
@@ -82,7 +81,7 @@ export default function App(){
             element: (
                 <PageLayout authUser={authUser} onLogout={handleLogout}>
                     {authUser ? <ProfilePage authUser={authUser} onLogout={handleLogout} /> : <Navigate to="/auth" onLogout={handleLogout}/>}
-                    {/* <ProfilePage authUser={authUser} /> */}
+                    {/* <ProfilePage authUser={authUser}  onLogout={handleLogout} /> */}
                 </PageLayout>
             ),
         },
@@ -98,3 +97,12 @@ export default function App(){
             {/* <ChatApp userId={'67886226f65d5209b0836659'} recipientId={'67886bde4f9166876c734a8c'}/> */}
         </>
 }
+
+
+const PageLayoutSpinner = () => {
+	return (
+		<Flex flexDir='column' h='100vh' alignItems='center' justifyContent='center'>
+			<Spinner size='xl' />
+		</Flex>
+	);
+};

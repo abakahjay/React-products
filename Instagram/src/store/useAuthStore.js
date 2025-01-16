@@ -22,6 +22,8 @@ const useAuthStore = create((set) => ({
 
     // Set error state
     setError: (error) => set({ error }),
+
+    setAuthUser: (user) => set({ user }),
 }));
 
 export default useAuthStore;

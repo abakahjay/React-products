@@ -4,12 +4,12 @@ import Footer from "../../components/trys/Footer.jsx";
 import { Flex,Box } from "@chakra-ui/react";
 import {SideBar} from '../../components/SideBar/SideBar.jsx'
 import { useLocation } from "react-router-dom";
+import useAuthStore from "../../store/useAuthStore.js";
 
 const PageLayout = ({ authUser, onLogout, children }) => {
 
     const { pathname } = useLocation();
-    const user=authUser?authUser.user||authUser:null
-    // console.log(authUser)
+    let user=authUser?authUser.user||authUser:null
 	
 	const canRenderSidebar = pathname !== "/auth"&&user;
     const canRenderNavbar =pathname !== "/auth"&&!user;
