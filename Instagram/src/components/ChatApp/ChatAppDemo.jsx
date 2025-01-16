@@ -10,6 +10,7 @@ const socket = io('http://localhost:7004',{
 const ChatApp = ({ userId, recipientId }) => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    const [isTyping, setIsTyping] = useState(false);
 
     useEffect(() => {
         // Send the user's ID to the server for tracking
@@ -24,6 +25,14 @@ const ChatApp = ({ userId, recipientId }) => {
                 setMessages((prevMessages) => [...prevMessages, newMessage]);
             }
         });
+
+        socket.on('typing', (data) => {
+            if (data.receiver === currentUser && data.sender !== currentUser) {
+                setIsTyping(true);
+                setTimeout(() => setIsTyping(false), 1000); // Hide typing after 1 second
+            }
+        });
+
         socket.on('connect_error', (err) => {
             console.error('Connection Error:', err.message);
             console.error('Details:', err);
@@ -31,6 +40,7 @@ const ChatApp = ({ userId, recipientId }) => {
 
         return () => {
             socket.off('receiveMessage'); // Unsubscribe from the event
+            socket.off('typing');
         };
     }, [userId, recipientId]);
 
