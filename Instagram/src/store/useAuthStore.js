@@ -1,45 +1,27 @@
-import {create} from 'zustand';
-// import axios from 'axios';
-import API from '../utils/api';
+import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
-    user: null,
+    user: JSON.parse(localStorage.getItem("user-info")),
     isLoading: false,
     error: null,
-    loginUser: async (email, password) => {
-        set({ isLoading: true });
-        try {
-            const response = await API.post('/api/v1/auth/login',{email, password});
-            set({ user: response.data, error: null });
-        } catch (err) {
-            set({ error: err.response?.data?.error || 'Login failed' });
-        } finally {
-            set({ isLoading: false });
-        }
+
+    // Login action
+    loginUser: (user) => set({ user }),
+
+    // Logout action
+    logoutUser: () => {
+        localStorage.removeItem("user-info"); // Clear local storage
+        set({ user: null });
     },
-    logoutUser: async(userId) => {
-        set({ isLoading: true });
-        try{
-            await API.post(`/api/v1/auth/logout?userId=${userId}`)
-            set({ user: null }),
-            localStorage.removeItem('token');
-        }catch(err){
-            set({ error: err.response?.data?.error || 'Logout Failed' });
-        }finally {
-            set({ isLoading: false });
-        }
-    },
-    registerUser: async (email, password,firstName,lastName,username) => {
-        set({ isLoading: true });
-        try {
-            const response = await API.post('/api/v1/auth/signup', {email, password,firstName,lastName,username});
-            set({ user: response.data, error: null });
-        } catch (err) {
-            set({ error: err.response?.data?.error || 'Signup failed' });
-        } finally {
-            set({ isLoading: false });
-        }
-    },
+
+    // Register action
+    registerUser: (user) => set({ user }),
+
+    // Set loading state
+    setLoading: (loading) => set({ isLoading: loading }),
+
+    // Set error state
+    setError: (error) => set({ error }),
 }));
 
 export default useAuthStore;

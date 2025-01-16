@@ -2,39 +2,23 @@ import React, { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Alert, AlertIcon, Button, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-// import {registerUser } from "../../utils/auth";
-import useAuth from "../../hooks/useAuthw";
-import useAuthStore from "../../store/useAuthStore";
+import useSignup from "../../hooks/useSignup";
+
+
 export default function Signup({onAuth}) {
+		// const navigate = useNavigate();
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
         const [username, setUsername] = useState("");
         const [firstName, setFirstName] = useState("");
         const [lastName, setLastName] = useState("");
-        const navigate = useNavigate();
         const [showPassword, setShowPassword] = useState(false);
-		// const {registerUser,error,user,isLoading,logoutUser,loginUser}=useAuth()
-		const {registerUser,error,user,isLoading,logoutUser,loginUser}=useAuthStore();
-
-		// console.log({registerUser,error,user,isLoading,logoutUser,loginUser})
-
-        // const error ={message: "Signup failed"}
+		const { signup, isLoading, error } = useSignup();
 
         const handleSubmit = async (e) => {
                 e.preventDefault();
-                // try {
-                    registerUser(email, password,firstName,lastName,username)
-                    onAuth(user);
-                    console.log(user)
-					if (user){
-						localStorage.setItem(`token`, user.token);
-						navigate(`/?userId=${user.userId}&token=${user.token}`);
-					}
-                // } catch (err) {
-                //     console.error("Signup error:", err.message);
-                // }
+                signup(email, password,firstName,lastName,username)
         };
-		// console.log(error)
     return (
         <>
 			<Input
