@@ -2,7 +2,7 @@ import { Flex, Image, Text } from "@chakra-ui/react";
 import useShowToast from "../../hooks/useShowToast";
 
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { auth, firestore } from "../../firebase/firebase.js";
+// import { auth, firestore } from "../../firebase/firebase.js";
 import useAuthStore from "../../store/useAuthStore";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -10,7 +10,7 @@ export default function GoogleAuth({ prefix }) {
 
 
 
-	const [signInWithGoogle, , , error] = useSignInWithGoogle(auth);
+	// const [signInWithGoogle, , , error] = useSignInWithGoogle(auth);
 	const showToast = useShowToast();
 	const loginUser = useAuthStore((state) => state.login);
 
@@ -52,7 +52,9 @@ export default function GoogleAuth({ prefix }) {
 		}
 	};
 return (
-    <Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"} onClick={handleGoogleAuth} >
+    <Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"}
+	// onClick={handleGoogleAuth}
+	>
 			<Image src='/google.png' w={5} alt='Google logo' />
 			<Text mx='2' color={"blue.500"}>
 				{prefix} with Google
