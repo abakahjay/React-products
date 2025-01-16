@@ -5,17 +5,25 @@ import ProfileTabs from "../../components/Profile/ProfileTabs";
 import ProfilePosts from "../../components/Profile/ProfilePosts";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useGetUser } from "../../hooks/useGetUser";
+import useProfileStore from "../../store/userProfileStore";
 
 export function ProfilePage ({authUser,onLogout}){
+	const {userProfile} = useProfileStore()
+	const { username } = useParams();
     const user=authUser.user?authUser.user:authUser
     const [isLoading,setIsLoading] =useState(true)
-        useEffect(() =>{
+	const { fetchUser,  error }= useGetUser()
+	if(username!==user.username){
+		fetchUser(username)
+		console.log(userProfile)
+	}
+	useEffect(() =>{
             setTimeout(() =>{
                 setIsLoading(false);
             },2000)
         },[])
 
-    const { username } = useParams();
     if (!username) return <UserNotFound />;
     // console.log(useParams())
     return <Container maxW={'container.lg'} py={5}>

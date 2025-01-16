@@ -10,18 +10,23 @@ import {ProfilePage} from './pages/ProfilePage/ProfilePage';
 import useLogout from "./hooks/useLogout.js";
 import { Flex, Spinner } from "@chakra-ui/react";
 import useShowToast from "./hooks/useShowToast.js";
+import { useGetUser } from "./hooks/useGetUser.js";
 
 
 export default function App(){
     const showToast = useShowToast()
-    const {logout,isLoading} =useLogout()
+    const {logout} =useLogout()
     const authUser= useAuthStore(state=>state.user)
     const setAuthUser= useAuthStore((state)=>state.setAuthUser)
     const [loading, setLoading] = useState(true);
     const {user}= useAuthStore();
+    const { fetchUser, isLoading, error }= useGetUser()
     console.log(user)
+    // user.username&&fetchUser(user.username)
+    
 
-        useEffect(() => {
+
+    useEffect(() => {
         const fetchAuthUser = async () => {
             try {
                 const { data } = await API.get("/api/v1/auth/dashboard",{
@@ -29,9 +34,10 @@ export default function App(){
                 });
                 // console.log(data)
                 setAuthUser(data.user);
+                // showToast("Success", "Login successful", "success");
             } catch(error) {
                 const message = error.response?.data?.error ||error.message|| "Login failed";
-                showToast("Error", message, "error");
+                // showToast("Error", message, "error");
                 console.warn(error)
                 setAuthUser(null);
             } finally {
@@ -47,7 +53,7 @@ export default function App(){
         // return {isLoading}
     };
 
-    // if (loading) return <PageLayoutSpinner />
+    if (loading) return <PageLayoutSpinner />
 
 
 

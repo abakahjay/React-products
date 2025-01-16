@@ -2,6 +2,7 @@ import { Avatar, AvatarGroup, Button, Flex, Text, VStack, useDisclosure } from "
 import { useEffect, useState ,useRef} from "react";
 import EditProfile from "./EditProfile";
 import { ProfileUrl } from "../../utils/imageUrl";
+// import { useGetUser } from "../../hooks/useGetUser";
 export default function ProfileHeader({authUser,onLogout,username}) {
   const user=authUser.user?authUser.user:authUser
 
@@ -17,7 +18,9 @@ export default function ProfileHeader({authUser,onLogout,username}) {
     })
     const [followerse,setFollowers] = useState(2002)
     const commentRef = useRef(null);
+    // const { fetchUser,  error }= useGetUser()
     const handleFollows = ()=>{
+        // fetchUser(user.username)
         setIsLoading(true)
         if(!isFollowing){
             setIsFollowing(true)
@@ -111,7 +114,7 @@ export default function ProfileHeader({authUser,onLogout,username}) {
               {user.bio}
             </Text>
         </VStack>
-        {isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
+        {isOpen && <EditProfile  isOpen={isOpen} onClose={onClose}  />}
       </Flex>
   )
 }
