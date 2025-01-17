@@ -6,7 +6,7 @@ import useAuthStore from "../../store/useAuthStore"; // Import your Zustand stor
 const GoogleAuth = ({ prefix }) => {
 	const [error, setError] = useState(null);
 	const showToast = useShowToast();
-	const loginUser = useAuthStore((state) => state.login); // Get the login action from Zustand store
+	const loginUser = useAuthStore((state) => state.loginUser); // Get the login action from Zustand store
 
 	const handleGoogleAuth = async () => {
 		try {

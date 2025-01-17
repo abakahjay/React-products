@@ -20,40 +20,45 @@ export default function App(){
     const setAuthUser= useAuthStore((state)=>state.setAuthUser)
     // const [loading, setLoading] = useState(true);
     const {user}= useAuthStore();
-    console.log(user)
-
+    const [loading, setLoading] = useState(true);
     
+    // Fetch the authenticated user on initial load
+    useEffect(() => {
+        const controller = new AbortController();
+        const fetchAuthUser = async () => {
+            if (user) {
+                try {
+                    const { data } = await API.get("/api/v1/auth/dashboard", {
+                        signal: controller.signal,
+                        headers: { Authorization: `Bearer ${user?.token}` }
+                    });
+                    // console.log(data.user);
+                    setAuthUser(data.user);
+                    showToast("Login Successful", data.message, "success");
+                } catch (error) {
+                    // setAuthUser(null);
+                    showToast("Loading",'', "loading");
+                } finally {
+                    setLoading(false);
+                }
+            } else {
+                setLoading(false);
+            }
+        };
 
-    // if(!user){
-    //     setLoading(false);
-    // }
-    // user&&useEffect(() => {
-        
-    //     const fetchAuthUser = async () => {
-    //         try {
-    //             const { data } = await API.get("/api/v1/auth/dashboard",{
-    //                 headers: { Authorization: `Bearer ${user.token}` }
-    //             });
-    //             // console.log(data)
-    //             setAuthUser(data.user);
-    //             // showToast("Success", "Login successful", "success");
-    //         } catch(error) {
-    //             const message = error.response?.data?.error ||error.message|| "Login failed";
-    //             // showToast("Error", message, "error");
-    //             console.warn(error)
-    //             setAuthUser(null);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-    //     fetchAuthUser();
-    // }, []);
-    // setLoading(false);
+        fetchAuthUser();
+
+        return ()=>{//This is a cleanup function
+            controller.abort();
+        }
+    }, [user, setAuthUser]);
+
+
     const handleLogout = (userId) => {
         logout(userId)
     };
 
-    // if (loading) return <PageLayoutSpinner />
+    if (loading) return <PageLayoutSpinner />
 
 
 
@@ -100,7 +105,7 @@ export default function App(){
     return <>
             {/* This is for Creating Routes and Pages */}
             <RouterProvider router={router} />
-            <ChatApp userId={'67886226f65d5209b0836659'} recipientId={'67886bde4f9166876c734a8c'}/>
+            {/* <ChatApp userId={'67886226f65d5209b0836659'} recipientId={'67886bde4f9166876c734a8c'}/> */}
         </>
 }
 
