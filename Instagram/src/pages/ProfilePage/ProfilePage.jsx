@@ -4,7 +4,6 @@ import ProfileHeader from "../../components/Profile/ProfileHeader";
 import ProfileTabs from "../../components/Profile/ProfileTabs";
 import ProfilePosts from "../../components/Profile/ProfilePosts";
 import { Link as RouterLink } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useGetUser } from "../../hooks/useGetUser";
 
 
@@ -16,8 +15,8 @@ export function ProfilePage ({authUser,onLogout}){
     
 	
 	const userNotFound = !isLoading && !userProfile;
-	if (userNotFound) return <UserNotFound />;
     const user=authUser?.user?authUser.user:authUser
+	if (userNotFound) return <UserNotFound />;
 	// console.log(user);
 	
     return <Container maxW={'container.lg'} py={5}>

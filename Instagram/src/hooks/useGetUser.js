@@ -24,7 +24,7 @@ export const  useGetUser= (username)=> {
                 const response =await API.patch(`/api/v1/users/${username}`)
                 // Save user info to Zustand and local storage
                 const user = response.data
-                console.log(user)
+                // console.log(user)
                 setUserProfile(user)
                 setError(null)
                 showToast("Success", `User: ${username} Found successful`, "success");

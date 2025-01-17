@@ -43,8 +43,13 @@ const EditProfile = ({ isOpen, onClose }) => {
 								</FormControl>
 
 								<FormControl>
-									<FormLabel fontSize={"sm"}>Full Name</FormLabel>
-									<Input placeholder={"Full Name"} size={"sm"} type={"text"} />
+									<FormLabel fontSize={"sm"}>First Name</FormLabel>
+									<Input placeholder={"First Name"} size={"sm"} type={"text"} />
+								</FormControl>
+
+                <FormControl>
+									<FormLabel fontSize={"sm"}>Last Name</FormLabel>
+									<Input placeholder={"Last Name"} size={"sm"} type={"text"} />
 								</FormControl>
 
 								<FormControl>
