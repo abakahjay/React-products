@@ -18,7 +18,6 @@ export default function App(){
     const {logout} =useLogout()
     const authUser= useAuthStore(state=>state.user)
     const setAuthUser= useAuthStore((state)=>state.setAuthUser)
-    // const [loading, setLoading] = useState(true);
     const {user}= useAuthStore();
     const [loading, setLoading] = useState(true);
     
