@@ -11,17 +11,19 @@ import { useGetUser } from "../../hooks/useGetUser";
 
 export function ProfilePage ({authUser,onLogout}){
 	const { username } = useParams();
-    const user=authUser.user?authUser.user:authUser
 	const { isLoading, userProfile } = useGetUser(username);
+	// console.log(userProfile);
     
-
+	
 	const userNotFound = !isLoading && !userProfile;
 	if (userNotFound) return <UserNotFound />;
+    const user=authUser?.user?authUser.user:authUser
+	// console.log(user);
 	
     return <Container maxW={'container.lg'} py={5}>
             {/* Profile of {username } */}
             <Flex py={10} px={4} pl={{ base: 4, md: 10 }} w={"full"} mx={"auto"} flexDirection={"column"}>
-                {!isLoading && <ProfileHeader authUser={authUser} onLogout={onLogout} username={username} />}
+                {!isLoading && userProfile &&<ProfileHeader authUser={userProfile} onLogout={onLogout} username={username} owner={user.username}/>}
                 {isLoading && <ProfileHeaderSkeleton />}
             </Flex>
             <Flex
@@ -33,7 +35,7 @@ export function ProfilePage ({authUser,onLogout}){
 				direction={"column"}
 			>
 				<ProfileTabs />
-				<ProfilePosts user={user}/>
+				{userProfile&&<ProfilePosts user={userProfile.user}/>}
 			</Flex>
         </Container>;
 };

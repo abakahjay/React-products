@@ -2,41 +2,36 @@ import { Avatar, AvatarGroup, Button, Flex, Text, VStack, useDisclosure } from "
 import { useEffect, useState ,useRef} from "react";
 import EditProfile from "./EditProfile";
 import { ProfileUrl } from "../../utils/imageUrl";
-// import { useGetUser } from "../../hooks/useGetUser";
-export default function ProfileHeader({authUser,onLogout,username}) {
-  const user=authUser.user?authUser.user:authUser
 
-  
-    const url =user.profile_picture_id?ProfileUrl(user.profile_picture_id):'';
+export default function ProfileHeader({authUser,onLogout,username,owner}) {
+      const user=authUser.user?authUser.user:authUser
+      const url =user.profile_picture_id?ProfileUrl(user.profile_picture_id):'';
 
-    const [isFollowing,setIsFollowing] = useState(false)
-    const [isLoading,setIsLoading]=useState(true);
-    useEffect(()=>{
-        setTimeout(()=>{
-            setIsLoading(false);
-        },1000)
-    })
-    const [followerse,setFollowers] = useState(2002)
-    const commentRef = useRef(null);
-    // const { fetchUser,  error }= useGetUser()
-    const handleFollows = ()=>{
-        // fetchUser(user.username)
-        setIsLoading(true)
-        if(!isFollowing){
-            setIsFollowing(true)
-            setFollowers(followerse+1)
-        }else{
-            setIsFollowing(false)
-            setFollowers(followerse-1)
-        }
-            }
+      const [isFollowing,setIsFollowing] = useState(false)
+      const [isLoading,setIsLoading]=useState(true);
+      useEffect(()=>{
+          setTimeout(()=>{
+              setIsLoading(false);
+          },1000)
+      })
+      const [followerse,setFollowers] = useState(2002)
+      const commentRef = useRef(null);
+      const handleFollows = ()=>{
+          setIsLoading(true)
+          if(!isFollowing){
+              setIsFollowing(true)
+              setFollowers(followerse+1)
+          }else{
+              setIsFollowing(false)
+              setFollowers(followerse-1)
+          }
+      }
 
-      let visitingOwnProfileAndAuth ;
-      // let visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
-      let visitingAnotherProfileAndAuth ;
-      // let visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
+      let visitingOwnProfileAndAuth = user && user.username === owner;
+      // console.log('Own Profile:',visitingOwnProfileAndAuth) ;
+      let visitingAnotherProfileAndAuth = user && user.username !== owner;
+      // console.log('Another profile',visitingAnotherProfileAndAuth );
+      const { isOpen, onOpen, onClose } = useDisclosure();
 
 
   return (
@@ -53,10 +48,10 @@ export default function ProfileHeader({authUser,onLogout,username}) {
             alignItems={"center"}
             w={"full"}
           >
-            <Text fontSize={{ base: "sm", md: "lg" }}>{user.username}</Text>
+            <Text fontSize={{ base: "sm", md: "lg" }}>{username}</Text>
 
             {/* Display button depending on whether it is a the page owner or another user */}
-            {visitingOwnProfileAndAuth=true && (
+            {visitingOwnProfileAndAuth && (
               <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
                 <Button
                   bg={"white"}
@@ -69,7 +64,7 @@ export default function ProfileHeader({authUser,onLogout,username}) {
                 </Button>
               </Flex>
             )}
-            {visitingAnotherProfileAndAuth=true && (
+            {visitingAnotherProfileAndAuth && (
               <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
                 <Button
                   bg={"blue.500"}
