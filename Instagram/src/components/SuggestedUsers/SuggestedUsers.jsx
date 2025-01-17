@@ -5,7 +5,7 @@ import SuggestedHeader from "./SuggestedHeader"
 export default function SuggestedUsers({authUser,onLogout}) {
     // const user=authUser.user
     const user=authUser.user?authUser.user:authUser
-    console.log(user)
+    // console.log(user)
 
     return (
         <VStack py={8} px={6} gap={4} >

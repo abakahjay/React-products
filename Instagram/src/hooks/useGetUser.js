@@ -14,6 +14,7 @@ export const  useGetUser= (username)=> {
 
     
     useEffect(()=>{
+        const controller = new AbortController();
         const fetchUser = async () => {
             if (!username) {
                 return showToast("Error", "Please enter a username", "error");
@@ -21,7 +22,9 @@ export const  useGetUser= (username)=> {
             setLoading(true); // Set loading state to true
             try {
                 // Send login request to the backend
-                const response =await API.patch(`/api/v1/users/${username}`)
+                const response =await API.patch(`/api/v1/users/${username}`,{
+                    signal: controller.signal,
+                })
                 // Save user info to Zustand and local storage
                 const user = response.data
                 // console.log(user)
@@ -37,6 +40,10 @@ export const  useGetUser= (username)=> {
             }
         };
         fetchUser()
+
+        return ()=>{//This is a cleanup function
+            controller.abort();
+        }
     },[ username, showToast])
 
     return {isLoading, error,userProfile };

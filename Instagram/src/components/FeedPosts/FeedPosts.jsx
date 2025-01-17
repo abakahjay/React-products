@@ -10,7 +10,7 @@ export default function FeedPosts({authUser}) {
             setIsLoading(false);
         },2000)
     },[])
-    console.log(user)
+    // console.log(user)
     return (
         <Container maxW={'container.sm'} py={10} px={2}>
 

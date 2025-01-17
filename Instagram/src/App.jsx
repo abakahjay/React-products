@@ -33,7 +33,7 @@ export default function App(){
                     });
                     // console.log(data.user);
                     setAuthUser(data.user);
-                    showToast("Login Successful", data.message, "success");
+                    // showToast("Login Successful", data.message, "success");
                 } catch (error) {
                     // setAuthUser(null);
                     showToast("Loading",'', "loading");
