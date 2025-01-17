@@ -2,6 +2,7 @@ import useProfileStore from '../store/userProfileStore'
 import useAuthStore from "../store/useAuthStore";
 import API from "../utils/api";
 import useShowToast from "./useShowToast"; // Custom toast hook (if you have one)
+import { useEffect } from 'react';
 
 
 
@@ -9,16 +10,11 @@ import useShowToast from "./useShowToast"; // Custom toast hook (if you have one
 export const  useGetUser= (username)=> {
     
     const showToast = useShowToast(); // Show toast notifications
-    const setError = useProfileStore((state) => state.setError); // Zustand action to handle errors
-    const setLoading = useProfileStore((state) => state.setLoading); // Zustand action to manage loading state
-    const isLoading = useProfileStore((state) => state.isLoading); // Zustand loading state
-    const error = useProfileStore((state) => state.error); // Zustand error state
-    const setUserProfile = useProfileStore((state) => state.setUserProfile); // Zustand error state
-    const {userProfile} = useProfileStore();
-    
-    // useEffect(()=>{
+    const {userProfile,setError,setLoading,isLoading,error,setUserProfile} = useProfileStore();
 
-        const fetchUser = async (username) => {
+    
+    useEffect(()=>{
+        const fetchUser = async () => {
             if (!username) {
                 return showToast("Error", "Please enter a username", "error");
             }
@@ -26,7 +22,6 @@ export const  useGetUser= (username)=> {
             try {
                 // Send login request to the backend
                 const response =await API.patch(`/api/v1/users/${username}`)
-    
                 // Save user info to Zustand and local storage
                 const user = response.data
                 console.log(user)
@@ -41,8 +36,9 @@ export const  useGetUser= (username)=> {
                 setLoading(false); // Reset loading state
             }
         };
-    // },[username])
+        fetchUser()
+    },[ username, showToast])
 
-    return { fetchUser, isLoading, error,userProfile };
+    return {isLoading, error,userProfile };
 
 }

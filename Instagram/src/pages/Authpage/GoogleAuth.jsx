@@ -1,64 +1,38 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import useShowToast from "../../hooks/useShowToast";
+import useAuthStore from "../../store/useAuthStore"; // Import your Zustand store
 
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-// import { auth, firestore } from "../../firebase/firebase.js";
-import useAuthStore from "../../store/useAuthStore";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-
-export default function GoogleAuth({ prefix }) {
-
-
-
-	// const [signInWithGoogle, , , error] = useSignInWithGoogle(auth);
+const GoogleAuth = ({ prefix }) => {
+	const [error, setError] = useState(null);
 	const showToast = useShowToast();
-	const loginUser = useAuthStore((state) => state.login);
+	const loginUser = useAuthStore((state) => state.login); // Get the login action from Zustand store
 
 	const handleGoogleAuth = async () => {
 		try {
-			const newUser = await signInWithGoogle();
-			if (!newUser && error) {
-				showToast("Error", error.message, "error");
-				return;
-			}
-			const userRef = doc(firestore, "users", newUser.user.uid);
-			const userSnap = await getDoc(userRef);
-
-			if (userSnap.exists()) {
-				// login
-				const userDoc = userSnap.data();
-				localStorage.setItem("user-info", JSON.stringify(userDoc));
-				loginUser(userDoc);
-			} else {
-				// signup
-				const userDoc = {
-					uid: newUser.user.uid,
-					email: newUser.user.email,
-					username: newUser.user.email.split("@")[0],
-					fullName: newUser.user.displayName,
-					bio: "",
-					profilePicURL: newUser.user.photoURL,
-					followers: [],
-					following: [],
-					posts: [],
-					createdAt: Date.now(),
-				};
-				await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
-				localStorage.setItem("user-info", JSON.stringify(userDoc));
-				loginUser(userDoc);
-			}
-		} catch (error) {
-			showToast("Error", error.message, "error");
+			// Redirect to your backend authentication endpoint
+			window.location.href = "http://localhost:7004/api/v1/auth/google";
+		} catch (err) {
+			setError(err.message);
+			showToast("Error", err.message, "error");
 		}
 	};
-return (
-    <Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"}
-	// onClick={handleGoogleAuth}
-	>
+
+	// Assuming after redirect, you handle the response from the backend and update Zustand store
+	const handleLoginResponse = (userData) => {
+		// Update Zustand state with the user information
+		loginUser(userData);
+		localStorage.setItem("user-info", JSON.stringify(userData)); // Optionally store user info in localStorage
+	};
+
+	return (
+		<Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"} onClick={handleGoogleAuth}>
 			<Image src='/google.png' w={5} alt='Google logo' />
 			<Text mx='2' color={"blue.500"}>
 				{prefix} with Google
 			</Text>
-	</Flex>
-)
-}
+		</Flex>
+	);
+};
+
+export default GoogleAuth;

@@ -18,42 +18,42 @@ export default function App(){
     const {logout} =useLogout()
     const authUser= useAuthStore(state=>state.user)
     const setAuthUser= useAuthStore((state)=>state.setAuthUser)
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const {user}= useAuthStore();
-    const { fetchUser, isLoading, error }= useGetUser()
     console.log(user)
-    // user.username&&fetchUser(user.username)
+
     
 
-
-    useEffect(() => {
-        const fetchAuthUser = async () => {
-            try {
-                const { data } = await API.get("/api/v1/auth/dashboard",{
-                    headers: { Authorization: `Bearer ${user.token}` }
-                });
-                // console.log(data)
-                setAuthUser(data.user);
-                // showToast("Success", "Login successful", "success");
-            } catch(error) {
-                const message = error.response?.data?.error ||error.message|| "Login failed";
-                // showToast("Error", message, "error");
-                console.warn(error)
-                setAuthUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchAuthUser();
-    }, []);
-
+    // if(!user){
+    //     setLoading(false);
+    // }
+    // user&&useEffect(() => {
+        
+    //     const fetchAuthUser = async () => {
+    //         try {
+    //             const { data } = await API.get("/api/v1/auth/dashboard",{
+    //                 headers: { Authorization: `Bearer ${user.token}` }
+    //             });
+    //             // console.log(data)
+    //             setAuthUser(data.user);
+    //             // showToast("Success", "Login successful", "success");
+    //         } catch(error) {
+    //             const message = error.response?.data?.error ||error.message|| "Login failed";
+    //             // showToast("Error", message, "error");
+    //             console.warn(error)
+    //             setAuthUser(null);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //     fetchAuthUser();
+    // }, []);
+    // setLoading(false);
     const handleLogout = (userId) => {
-        // console.log(userId)
         logout(userId)
-        // return {isLoading}
     };
 
-    if (loading) return <PageLayoutSpinner />
+    // if (loading) return <PageLayoutSpinner />
 
 
 
