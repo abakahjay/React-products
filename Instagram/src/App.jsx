@@ -86,8 +86,8 @@ export default function App(){
             path: '/:username',
             element: (
                 <PageLayout authUser={authUser} onLogout={handleLogout}>
-                    {authUser ? <ProfilePage authUser={authUser} onLogout={handleLogout} /> : <Navigate to="/auth" onLogout={handleLogout}/>}
-                    {/* <ProfilePage authUser={authUser}  onLogout={handleLogout} /> */}
+                    {/* {authUser ? <ProfilePage authUser={authUser} onLogout={handleLogout} /> : <Navigate to="/auth" onLogout={handleLogout}/>} */}
+                    <ProfilePage authUser={authUser}  onLogout={handleLogout} />
                 </PageLayout>
             ),
         },
@@ -100,7 +100,7 @@ export default function App(){
     return <>
             {/* This is for Creating Routes and Pages */}
             <RouterProvider router={router} />
-            {/* <ChatApp userId={'67886226f65d5209b0836659'} recipientId={'67886bde4f9166876c734a8c'}/> */}
+            <ChatApp userId={'67886226f65d5209b0836659'} recipientId={'67886bde4f9166876c734a8c'}/>
         </>
 }
 

@@ -2,10 +2,12 @@ import { Avatar, AvatarGroup, Button, Flex, Text, VStack, useDisclosure } from "
 import { useEffect, useState ,useRef} from "react";
 import EditProfile from "./EditProfile";
 import { ProfileUrl } from "../../utils/imageUrl";
+import useAuthStore from "../../store/useAuthStore";
 
 export default function ProfileHeader({authUser,onLogout,username,owner}) {
       const user=authUser.user?authUser.user:authUser
       const url =user.profile_picture_id?ProfileUrl(user.profile_picture_id):'';
+      const UseAuth = useAuthStore((state) => state.user);
 
       const [isFollowing,setIsFollowing] = useState(false)
       const [isLoading,setIsLoading]=useState(true);
@@ -27,9 +29,9 @@ export default function ProfileHeader({authUser,onLogout,username,owner}) {
           }
       }
 
-      let visitingOwnProfileAndAuth = user && user.username === owner;
+      let visitingOwnProfileAndAuth =UseAuth&& user && user.username === owner;
       // console.log('Own Profile:',visitingOwnProfileAndAuth) ;
-      let visitingAnotherProfileAndAuth = user && user.username !== owner;
+      let visitingAnotherProfileAndAuth = UseAuth &&user && user.username !== owner;
       // console.log('Another profile',visitingAnotherProfileAndAuth );
       const { isOpen, onOpen, onClose } = useDisclosure();
 
