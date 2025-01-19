@@ -22,10 +22,10 @@ const ProfilePosts = ({user}) => {
             setIsFollowing(false)
             setFollowers(followerse-1)
         }
-      }
+    }
 
 
-	const noPostsFound = !isLoading && user.posts.length === 0;
+	const noPostsFound = !isLoading && user?.posts.length === 0;
 	if (noPostsFound) return <NoPostsFound />;
 
 	return (
@@ -48,7 +48,7 @@ const ProfilePosts = ({user}) => {
 
 			{!isLoading && (
 				<>
-					{user.posts.map((post) => (
+					{user?.posts.map((post) => (
             <ProfilePost post={post} key={post} />
           ))}
           {/* {user.posts.map((post) => (

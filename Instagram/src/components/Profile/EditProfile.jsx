@@ -15,8 +15,41 @@ import {
 	ModalOverlay,
 	Stack,
 } from "@chakra-ui/react";
+import useAuthStore from "../../store/useAuthStore";
+import { useRef, useState } from "react";
+import useShowToast from "../../hooks/useShowToast";
+import { ProfileUrl } from "../../utils/imageUrl";
+import usePreviewImg from "../../hooks/usePreviewing";
+import useEditProfile from "../../hooks/useEditProfile";
+const tokens = JSON.parse(localStorage.getItem("user-info"))?.token;
 
-const EditProfile = ({ isOpen, onClose }) => {
+const EditProfile = ({ isOpen, onClose}) => {
+	const {editProfile, isUpdating }=useEditProfile()
+	// console.log(tokens)
+	const authUser = useAuthStore((state) => state.user);
+	const user=authUser.user?authUser.user:authUser
+	const username=user.username
+	const url =user.profile_picture_id?ProfileUrl(user.profile_picture_id):'';
+	const fileRef = useRef(null);
+	const {selectedFile, handleImageChange,formDatas, setSelectedFile }=usePreviewImg()
+	const showToast = useShowToast();
+
+	// console.log(selectedFile)
+	const [inputs, setInputs] = useState({
+		firstName: "",
+		lastName: "",
+		username: "",
+		bio: "",
+	});
+	const handleEditProfile = async () => {
+		try {
+			await editProfile(inputs, selectedFile,formDatas,username,tokens);
+			setSelectedFile(null);
+			onClose();
+		} catch (error) {
+			showToast("Error", error.message, "error");
+		}
+	};
 	return (
 		<>
 			<Modal isOpen={isOpen} onClose={onClose}>
@@ -34,32 +67,53 @@ const EditProfile = ({ isOpen, onClose }) => {
 								<FormControl>
 									<Stack direction={["column", "row"]} spacing={6}>
 										<Center>
-											<Avatar size='xl' src={""} border={"2px solid white "} />
+											{selectedFile&&<Avatar size='xl' src={selectedFile} border={"2px solid white "} />}
+											{!selectedFile&&<Avatar size='xl'src={url} border={"2px solid white "} />}
 										</Center>
 										<Center w='full'>
-											<Button w='full'>Edit Profile Picture</Button>
+											<Button w='full' onClick={() => fileRef.current.click()}>
+												Edit Profile Picture
+											</Button>
 										</Center>
+										<Input type='file' hidden ref={fileRef} onChange={handleImageChange} />
 									</Stack>
 								</FormControl>
 
 								<FormControl>
 									<FormLabel fontSize={"sm"}>First Name</FormLabel>
-									<Input placeholder={"First Name"} size={"sm"} type={"text"} />
+									<Input placeholder={"First Name"} size={"sm"} type={"text"}
+										value={inputs.firstName || authUser.firstName}
+										onChange={(e) => setInputs({ ...inputs, firstName: e.target.value })}
+									/>
 								</FormControl>
 
-                <FormControl>
+								<FormControl>
 									<FormLabel fontSize={"sm"}>Last Name</FormLabel>
-									<Input placeholder={"Last Name"} size={"sm"} type={"text"} />
+									<Input placeholder={"Last Name"} size={"sm"} type={"text"}
+										value={inputs.lastName || authUser.lastName}
+										onChange={(e) => setInputs({ ...inputs, lastName: e.target.value })}
+									/>
 								</FormControl>
 
 								<FormControl>
 									<FormLabel fontSize={"sm"}>Username</FormLabel>
-									<Input placeholder={"Username"} size={"sm"} type={"text"} />
+									<Input
+										placeholder={"Username"}
+										size={"sm"}
+										type={"text"}
+										value={inputs.username || authUser.username}
+										onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
+									/>
 								</FormControl>
 
 								<FormControl>
 									<FormLabel fontSize={"sm"}>Bio</FormLabel>
-									<Input placeholder={"Bio"} size={"sm"} type={"text"} />
+									<Input placeholder={"Bio"}
+										size={"sm"}
+										type={"text"}
+										value={inputs.bio || authUser.bio}
+										onChange={(e) => setInputs({ ...inputs, bio: e.target.value })}
+									/>
 								</FormControl>
 
 								<Stack spacing={6} direction={["column", "row"]}>
@@ -69,6 +123,7 @@ const EditProfile = ({ isOpen, onClose }) => {
 										w='full'
 										size='sm'
 										_hover={{ bg: "red.500" }}
+										onClick={onClose}
 									>
 										Cancel
 									</Button>
@@ -78,6 +133,8 @@ const EditProfile = ({ isOpen, onClose }) => {
 										size='sm'
 										w='full'
 										_hover={{ bg: "blue.500" }}
+										onClick={handleEditProfile}
+										isLoading={isUpdating}
 									>
 										Submit
 									</Button>

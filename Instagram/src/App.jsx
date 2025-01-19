@@ -10,7 +10,6 @@ import {ProfilePage} from './pages/ProfilePage/ProfilePage';
 import useLogout from "./hooks/useLogout.js";
 import { Flex, Spinner } from "@chakra-ui/react";
 import useShowToast from "./hooks/useShowToast.js";
-import { useGetUser } from "./hooks/useGetUser.js";
 
 
 export default function App(){
@@ -20,6 +19,7 @@ export default function App(){
     const setAuthUser= useAuthStore((state)=>state.setAuthUser)
     const {user}= useAuthStore();
     const [loading, setLoading] = useState(true);
+    // console.log(user?.token)
     
     // Fetch the authenticated user on initial load
     useEffect(() => {
@@ -31,9 +31,8 @@ export default function App(){
                         signal: controller.signal,
                         headers: { Authorization: `Bearer ${user?.token}` }
                     });
-                    // console.log(data.user);
                     setAuthUser(data.user);
-                    // showToast("Login Successful", data.message, "success");
+                    localStorage.setItem("user-info", JSON.stringify({user:data.user,token:user.token}));
                 } catch (error) {
                     // setAuthUser(null);
                     showToast("Loading",'', "loading");

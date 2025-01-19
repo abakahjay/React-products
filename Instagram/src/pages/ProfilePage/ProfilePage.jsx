@@ -22,7 +22,7 @@ export function ProfilePage ({authUser,onLogout}){
     return <Container maxW={'container.lg'} py={5}>
             {/* Profile of {username } */}
             <Flex py={10} px={4} pl={{ base: 4, md: 10 }} w={"full"} mx={"auto"} flexDirection={"column"}>
-                {!isLoading && userProfile &&<ProfileHeader authUser={userProfile} onLogout={onLogout} username={username} owner={user?.username}/>}
+                {!isLoading && userProfile &&<ProfileHeader  authUser={userProfile} onLogout={onLogout} username={username} owner={user?.username}/>}
                 {isLoading && <ProfileHeaderSkeleton />}
             </Flex>
             <Flex

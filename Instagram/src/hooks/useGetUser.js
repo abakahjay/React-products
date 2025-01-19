@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 export const  useGetUser= (username)=> {
     
     const showToast = useShowToast(); // Show toast notifications
+    const {user}= useAuthStore();
     const {userProfile,setError,setLoading,isLoading,error,setUserProfile} = useProfileStore();
 
     
@@ -30,11 +31,24 @@ export const  useGetUser= (username)=> {
                 // console.log(user)
                 setUserProfile(user)
                 setError(null)
-                showToast("Success", `User: ${username} Found successful`, "success");
+                const a =user.user.username===username
+                console.log(a)
+                console.log('Searched',username)
+                console.log('Actual',user.user.username)
+                console.log(user)
+                if(a){
+                    return
+                }
+                setTimeout(()=>{
+                    showToast("Success", `User: ${username} Found successful`, "success");
+                },3500)
             } catch (err) {
                 const message = err.response?.data?.error || "User not found";
                 setError(message); // Update Zustand error state
-                showToast("Error", message, "error");
+                setTimeout(()=>{
+                    showToast("Error", message, "error");
+                },3500)
+                
             } finally {
                 setLoading(false); // Reset loading state
             }

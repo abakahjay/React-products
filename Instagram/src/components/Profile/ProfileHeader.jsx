@@ -111,7 +111,7 @@ export default function ProfileHeader({authUser,onLogout,username,owner}) {
               {user.bio}
             </Text>
         </VStack>
-        {isOpen && <EditProfile  isOpen={isOpen} onClose={onClose}  />}
+        {isOpen && <EditProfile  isOpen={isOpen} onClose={onClose}/>}
       </Flex>
   )
 }
