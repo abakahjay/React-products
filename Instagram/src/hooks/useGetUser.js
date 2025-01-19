@@ -27,15 +27,15 @@ export const  useGetUser= (username)=> {
                     signal: controller.signal,
                 })
                 // Save user info to Zustand and local storage
-                const user = response.data
+                const users = response.data
                 // console.log(user)
-                setUserProfile(user)
+                setUserProfile(users)
                 setError(null)
-                const a =user.user.username===username
+                const a =user.username===username
                 console.log(a)
                 console.log('Searched',username)
-                console.log('Actual',user.user.username)
-                console.log(user)
+                console.log('Actual',user.username)
+                // console.log(user)
                 if(a){
                     return
                 }
