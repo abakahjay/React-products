@@ -4,6 +4,7 @@ import useShowToast from "./useShowToast";
 const usePreviewImg = () => {
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [formDatas, setFormDatas] = useState(null);
+	const [formDatas2, setFormDatas2] = useState(null);
 	const showToast = useShowToast();
 	const maxFileSizeInBytes = 2 * 1024 * 1024; // 2MB
 
@@ -19,10 +20,13 @@ const usePreviewImg = () => {
 
 			const formDatase = new FormData();
             formDatase.append("profile_pictures", file);
-			
 
+			const formDatase2 = new FormData();
+            formDatase2.append("file", file);
+			
 			reader.onloadend = () => {
 				setFormDatas(formDatase);
+				setFormDatas2(formDatase2);
 				setSelectedFile(reader.result);
 			};
 
@@ -33,7 +37,7 @@ const usePreviewImg = () => {
 		}
 	};
 
-	return {formDatas, selectedFile, handleImageChange, setSelectedFile };
+	return {formDatas,formDatas2, selectedFile, handleImageChange, setSelectedFile };
 };
 
 export default usePreviewImg;
