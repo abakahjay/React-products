@@ -20,7 +20,6 @@ export default function App(){
     const {user}= useAuthStore();
     const [loading, setLoading] = useState(true);
     // console.log(user?.token)
-    
     // Fetch the authenticated user on initial load
     useEffect(() => {
         const controller = new AbortController();

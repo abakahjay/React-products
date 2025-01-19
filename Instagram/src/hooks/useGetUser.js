@@ -32,9 +32,9 @@ export const  useGetUser= (username)=> {
                 setUserProfile(users)
                 setError(null)
                 const a =user.username===username
-                console.log(a)
-                console.log('Searched',username)
-                console.log('Actual',user.username)
+                // console.log(a)
+                // console.log('Searched',username)
+                // console.log('Actual',user.username)
                 // console.log(user)
                 if(a){
                     return

@@ -3,32 +3,13 @@ import { useEffect, useState ,useRef} from "react";
 import EditProfile from "./EditProfile";
 import { ProfileUrl } from "../../utils/imageUrl";
 import useAuthStore from "../../store/useAuthStore";
+import useFollowUser from "../../hooks/useFollowUser";
 
 export default function ProfileHeader({authUser,onLogout,username,owner}) {
       const user=authUser.user?authUser.user:authUser
       const url =user.profile_picture_id?ProfileUrl(user.profile_picture_id):'';
       const UseAuth = useAuthStore((state) => state.user);
-
-      const [isFollowing,setIsFollowing] = useState(false)
-      const [isLoading,setIsLoading]=useState(true);
-      useEffect(()=>{
-          setTimeout(()=>{
-              setIsLoading(false);
-          },1000)
-      })
-      const [followerse,setFollowers] = useState(2002)
-      const commentRef = useRef(null);
-      const handleFollows = ()=>{
-          setIsLoading(true)
-          if(!isFollowing){
-              setIsFollowing(true)
-              setFollowers(followerse+1)
-          }else{
-              setIsFollowing(false)
-              setFollowers(followerse-1)
-          }
-      }
-
+      const { isFollowing, isUpdating, handleFollowUser } = useFollowUser(user._id);
       let visitingOwnProfileAndAuth =UseAuth&& user && user.username === owner;
       // console.log('Own Profile:',visitingOwnProfileAndAuth) ;
       let visitingAnotherProfileAndAuth = UseAuth &&user && user.username !== owner;
@@ -73,8 +54,8 @@ export default function ProfileHeader({authUser,onLogout,username,owner}) {
                   color={"white"}
                   _hover={{ bg: "blue.600" }}
                   size={{ base: "xs", md: "sm" }}
-                  onClick={handleFollows}
-                  isLoading={isLoading}
+                  onClick={handleFollowUser}
+                  isLoading={isUpdating}
                 >
                   {isFollowing ? "Unfollow" : "Follow"}
                 </Button>
