@@ -6,12 +6,12 @@ const useShowToast = () => {
 
 	// useCallback is used to prevent infinite loop, by  caching the function
 	const showToast = useCallback(
-		(title, description, status) => {
+		(title, description, status,time) => {
 			toast({
 				title: title,
 				description: description,
 				status: status,
-				duration: 3000,
+				duration: time||3000,
 				isClosable: true,
 			});
 		},

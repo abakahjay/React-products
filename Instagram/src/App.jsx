@@ -35,7 +35,7 @@ export default function App(){
                     localStorage.setItem("user-info", JSON.stringify({user:data.user,token:user.token}));
                 } catch (error) {
                     // setAuthUser(null);
-                    showToast("Loading",'', "loading");
+                    showToast("Loading",'', "loading",1000);
                 } finally {
                     setLoading(false);
                 }
