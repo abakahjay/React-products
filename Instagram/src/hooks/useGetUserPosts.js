@@ -21,7 +21,7 @@ const useGetUserPosts = () => {
                     signal: controller.signal,
                 })
                 let posts = response.data.posts
-                console.log(posts)
+                // console.log(posts)
 				setPosts(posts);
 			} catch (error) {
 				const message = error.response?.data?.error || error.message

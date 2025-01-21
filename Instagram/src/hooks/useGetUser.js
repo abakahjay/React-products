@@ -39,15 +39,11 @@ export const  useGetUser= (username)=> {
                 if(a){
                     return
                 }
-                setTimeout(()=>{
-                    showToast("Success", `User: ${username} Found successful`, "success");
-                },3500)
+                showToast("Success", `User: ${username} Found successful`, "success");
             } catch (err) {
                 const message = err.response?.data?.error || "User not found";
                 setError(message); // Update Zustand error state
-                setTimeout(()=>{
-                    showToast("Error", message, "error");
-                },3500)
+                showToast("Error", message, "error");
                 
             } finally {
                 setLoading(false); // Reset loading state

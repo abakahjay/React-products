@@ -14,7 +14,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const commentRef = useRef(null);
 	const { handleLikePost, isLiked, likes } = useLikePost(post);
 	const { isOpen, onOpen, onClose } = useDisclosure();
-    console.log(post, isProfilePage, creatorProfile)
+    // console.log(post, isProfilePage, creatorProfile)
 
 	const handleSubmitComment = async () => {
 		await handlePostComment(post?._id, comment);
@@ -38,7 +38,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 
 			{isProfilePage && (
 				<Text fontSize='12' color={"gray"}>
-					Posted {timeAgo(post.createdAt)}
+					Posted {timeAgo(post.created)}
 				</Text>
 			)}
 
@@ -50,7 +50,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 							{post?.caption}
 						</Text>
 					</Text>
-					{post?.comments.length > 0 && (
+					{post?.comments[0]&& (
 						<Text fontSize='sm' color={"gray"} cursor={"pointer"} onClick={onOpen}>
 							View all {post?.comments.length} comments
 						</Text>

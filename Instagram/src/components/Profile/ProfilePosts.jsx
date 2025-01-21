@@ -6,7 +6,7 @@ import useGetUserPosts from "../../hooks/useGetUserPosts";
 const ProfilePosts = ({ user }) => {
 	const { isLoading, posts } = useGetUserPosts()
 	// let isLoading= !true;
-	posts[0]&&console.log(posts)
+	// posts[0]&&console.log(posts)
 	const noPostsFound =!posts[0]&& !isLoading && posts?.length === 0;
 	if (noPostsFound) return <NoPostsFound />;
 

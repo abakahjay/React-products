@@ -1,40 +1,36 @@
 import { Avatar, Flex, Skeleton, SkeletonCircle, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-// import useGetUserProfileById from "../../hooks/useGetUserProfileById";
 import { Link } from "react-router-dom";
-// import { timeAgo } from "../../utils/timeAgo";
-export default function Comment() {
-  const [isLoading,setIsLoading]=useState(true);
-      useEffect(()=>{
-          setTimeout(()=>{
-              setIsLoading(false);
-          },1000)
-      })
+import { timeAgo } from "../../utils/timeAgo";
+import { useGetUserById } from "../../hooks/useGetUserById";
+import { ProfileUrl } from "../../utils/imageUrl";
+export default function Comment({comment}) {
 
+  const {userProfile,isLoading}= useGetUserById(comment.user)
+  let url =ProfileUrl(userProfile?.profile_picture_id);
+  // let url =userProfile?.profile_picture_id?ProfileUrl(userProfile?.profile_picture_id):''
+
+  // userProfile&&console.log(userProfile)
+  // console.log(comment)
   if (isLoading) return <CommentSkeleton />;
-  return (
+  if(userProfile)return(
     <Flex gap={4}>
-    <Link to={`/`}>
-      <Avatar src={'/img1.png'} size={"sm"} />
+    <Link to={`/${userProfile.username}`}>
+      {<Avatar src={url} size={"sm"} />}
     </Link>
-    {/* <Link to={`/${userProfile.username}`}>
-      <Avatar src={userProfile.profilePicURL} size={"sm"} />
-    </Link> */}
     <Flex direction={"column"}>
       <Flex gap={2} alignItems={"center"}>
-        <Link to={`/`}>
-        {/* <Link to={`/${userProfile.username}`}> */}
+        <Link to={`/${userProfile.username}`}>
           <Text fontWeight={"bold"} fontSize={12}>
-            {/* {userProfile.username} */}Joshua
+            {userProfile.username}
           </Text>
         </Link>
         <Text fontSize={14}>
-          {/* {comment.comment} */}Looking Good
+            {comment.text}
           </Text>
       </Flex>
       <Text fontSize={12} color={"gray"}>
-        {/* {timeAgo(comment.createdAt)} */}
-        2 days ago
+        {timeAgo(comment.created)}
       </Text>
     </Flex>
   </Flex>

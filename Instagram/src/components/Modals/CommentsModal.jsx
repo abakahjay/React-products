@@ -14,6 +14,7 @@ import usePostComment from "../../hooks/usePostComment";
 import { useEffect, useRef } from "react";
 
 const CommentsModal = ({ isOpen, onClose, post }) => {
+	console.log(post)
 	const { handlePostComment, isCommenting } = usePostComment();
 	const commentRef = useRef(null);
 	const commentsContainerRef = useRef(null);
@@ -22,7 +23,7 @@ const CommentsModal = ({ isOpen, onClose, post }) => {
     
 		// do not refresh the page, prevent it
 		e.preventDefault();
-		await handlePostComment(post.id, commentRef.current.value);
+		await handlePostComment(post._id, commentRef.current.value);
 		commentRef.current.value = "";
 	};
 
@@ -53,7 +54,7 @@ const CommentsModal = ({ isOpen, onClose, post }) => {
 						ref={commentsContainerRef}
 					>
 						{post.comments.map((comment, idx) => (
-							<Comment key={idx} comment={comment} />
+							<Comment key={comment?._id} comment={comment} />
 						))}
 					</Flex>
 					<form onSubmit={handleSubmitComment} style={{ marginTop: "2rem" }}>

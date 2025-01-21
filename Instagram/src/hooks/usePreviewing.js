@@ -6,7 +6,7 @@ const usePreviewImg = () => {
 	const [formDatas, setFormDatas] = useState(null);
 	const [formDatas2, setFormDatas2] = useState(null);
 	const showToast = useShowToast();
-	const maxFileSizeInBytes = 2 * 1024 * 1024; // 2MB
+	const maxFileSizeInBytes = 10 * 1024 * 1024; // 10MB
 
 	const handleImageChange = (e) => {
 		const file = e.target.files[0];

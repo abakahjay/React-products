@@ -36,7 +36,7 @@ export default function ProfilePost({post}) {
 	const [isDeleting, setIsDeleting] = useState(false);
 	const deletePost = useProfileStore((state) => state.deletePost);
   const url =post?.postId?ProfileUrl(post.postId):'';
-  // console.log(userProfile.user)
+  // console.log(post)
 
   const handleDeletePost = async () => {
 		if (!window.confirm("Are you sure you want to delete this post?")) return;
@@ -47,7 +47,6 @@ export default function ProfilePost({post}) {
       })
       let posts = response.data
       console.log(posts)
-
 			deletePost(posts.user);
 			showToast("Success", "Post deleted successfully", "success");
       
@@ -168,7 +167,7 @@ export default function ProfilePost({post}) {
                   }
 
                   {/* COMMENTS */}
-                  {post.comments[1]&&post.comments.map((comment) => (
+                  {post.comments[0]&&post.comments.map((comment) => (
                     <Comment key={comment?._id} comment={comment} />
                   ))}
                 </VStack>
