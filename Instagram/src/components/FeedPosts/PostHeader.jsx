@@ -3,15 +3,22 @@ import { Link } from "react-router-dom";
 import useFollowUser from "../../hooks/useFollowUser";
 import { timeAgo } from "../../utils/timeAgo";
 import { ProfileUrl } from "../../utils/imageUrl";
+import useAuthStore from "../../store/useAuthStore";
 
 const PostHeader = ({ post, creatorProfile }) => {
-        // console.log(creatorProfile)
+        const { handleFollowUser, isFollowing, isUpdating } = useFollowUser(post.createdBy);
+        const UseAuth = useAuthStore((state) => state.user);
         let url =ProfileUrl(creatorProfile?.profile_picture_id)//||''
+        let visitingAnotherProfileAndAuth = UseAuth &&creatorProfile && creatorProfile.username !== UseAuth.username
+        // UseAuth &&creatorProfile && creatorProfile.username&&console.log(visitingAnotherProfileAndAuth)
+
+
+        // console.log(creatorProfile)
         // setTimeout(() => {
             
         // }, 100);
         // creatorProfile&&console.log(post,creatorProfile);
-        const { handleFollowUser, isFollowing, isUpdating } = useFollowUser(post.createdBy);
+        // let visitingOwnProfileAndAuth =UseAuth&& user && user.username === owner;
     
         return (
             <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} my={2}>
@@ -34,7 +41,7 @@ const PostHeader = ({ post, creatorProfile }) => {
                         <Box color={"gray.500"}>• {timeAgo(post.created)}</Box>
                     </Flex>
                 </Flex>
-                <Box cursor={"pointer"}>
+                {UseAuth &&creatorProfile && creatorProfile.username&&visitingAnotherProfileAndAuth&&(<Box cursor={"pointer"}>
                     <Button
                         size={"xs"}
                         bg={"transparent"}
@@ -50,7 +57,7 @@ const PostHeader = ({ post, creatorProfile }) => {
                     >
                         {isFollowing ? "Unfollow" : "Follow"}
                     </Button>
-                </Box>
+                </Box>)}
             </Flex>
         );
     };
