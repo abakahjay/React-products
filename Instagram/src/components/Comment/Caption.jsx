@@ -5,13 +5,13 @@ import useProfileStore from "../../store/userProfileStore";
 import { ProfileUrl } from "../../utils/imageUrl";
 
 const Caption = ({ post }) => {
-	console.log(post)
+	// console.log(post)
 	const userProfile = useProfileStore((state) => state.userProfile).user;
 
 	return (
 		<Flex gap={4}>
 			<Link to={`/${userProfile.username}`}>
-				<Avatar src={ProfileUrl(userProfile.profile_picture_id)} size={"sm"} />
+				<Avatar src={ProfileUrl(userProfile?.profile_picture_id)} size={"sm"} />
 			</Link>
 			<Flex direction={"column"}>
 				<Flex gap={2} alignItems={"center"}>
@@ -20,10 +20,10 @@ const Caption = ({ post }) => {
 							{userProfile.username}
 						</Text>
 					</Link>
-					<Text fontSize={14}>{post.caption}</Text>
+					<Text fontSize={14}>{post?.caption}</Text>
 				</Flex>
 				<Text fontSize={12} color={"gray"}>
-					{timeAgo(post.createdAt)}
+					{timeAgo(post?.createdAt)}
 				</Text>
 			</Flex>
 		</Flex>

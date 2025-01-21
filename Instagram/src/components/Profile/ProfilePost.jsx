@@ -54,7 +54,7 @@ export default function ProfilePost({post}) {
 		} catch (error) {
 			const message = error.response?.data?.error || error.message
 				if(error.message==='canceled')return
-showToast("Error", message, "error");
+        showToast("Error", message, "error");
 		} finally {
 			setIsDeleting(false);
       onClose()
