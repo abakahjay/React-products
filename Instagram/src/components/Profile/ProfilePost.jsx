@@ -21,10 +21,46 @@ import Comment from "../Comment/Comment";
 import Caption from "../Comment/Caption";
 import PostFooter from "../FeedPosts/PostFooter";
 import { ProfileUrl } from "../../utils/imageUrl";
+import useProfileStore from "../../store/userProfileStore";
+import useAuthStore from "../../store/useAuthStore";
+import useShowToast from "../../hooks/useShowToast";
+import usePostStore from "../../store/usePostStore";
+import API from "../../utils/api";
+import { useState } from "react";
 
 export default function ProfilePost({post}) {
   const { isOpen, onOpen, onClose } = useDisclosure();//This is use for the modal setup
-  // `http://localhost:7004/posts/image/${post.image}`
+  const {userProfile} = useProfileStore()
+  const authUser = useAuthStore((state) => state.user);
+  const showToast = useShowToast();
+	const [isDeleting, setIsDeleting] = useState(false);
+	const deletePost = useProfileStore((state) => state.deletePost);
+  const url =post?.postId?ProfileUrl(post.postId):'';
+  // console.log(userProfile.user)
+
+  const handleDeletePost = async () => {
+		if (!window.confirm("Are you sure you want to delete this post?")) return;
+		if (isDeleting) return;
+    setIsDeleting(true);
+		try {
+			const response =await API.delete(`/api/v1/posts/image/${post.postId}/?userId=${userProfile?.user._id}`,{
+      })
+      let posts = response.data
+      console.log(posts)
+
+			deletePost(posts.user);
+			showToast("Success", "Post deleted successfully", "success");
+      
+		} catch (error) {
+			const message = error.response?.data?.error || error.message
+				if(error.message==='canceled')return
+showToast("Error", message, "error");
+		} finally {
+			setIsDeleting(false);
+      onClose()
+		}
+	};
+
   return (
     <>
         <GridItem
@@ -55,20 +91,19 @@ export default function ProfilePost({post}) {
               <Flex>
                 <AiFillHeart size={20} />
                 <Text fontWeight={"bold"} ml={2}>
-                  {/* {post.likes.length} */}20
+                  {post?.likes.length}
                 </Text>
               </Flex>
               {/* Comments */}
               <Flex>
                 <FaComment size={20} />
                 <Text fontWeight={"bold"} ml={2}>
-                  {/* {post.comments.length} */}34
+                  {post?.comments.length}
                 </Text>
               </Flex>
             </Flex>
           </Flex>
-          {/* <Image src={`http://localhost:7004/posts/image/${post.postId}`} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} /> */}
-          <Image src={ProfileUrl(post)} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} />
+          <Image src={url}  w={"100%"} h={"100%"} objectFit={"cover"} />
         </GridItem>
 
 
@@ -95,53 +130,47 @@ export default function ProfilePost({post}) {
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <Image src={ProfileUrl(post)} alt='profile post' />
-                {/* <Image src={post.imageURL} alt='profile post' /> */}
+                <Image src={url} />
               </Flex>
 
               {/* Second Half Of the Modal */}
               <Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
                   <Flex alignItems={"center"} gap={4}>
-                    <Avatar src={'img2'} size={"sm"} name='As a Programmer' />
+                    <Avatar src={url} size={"sm"} name='As a Programmer' />
                     <Text fontWeight={"bold"} fontSize={12}>
-                      {/* {userProfile.username} */}
-                      joshua
+                      {userProfile?.user?.username}
                     </Text>
                   </Flex>
 
-                  {/* {authUser?.uid === userProfile.uid && ( */}
+                  {authUser?._id === userProfile?.user?._id && (
                     <Button
                       size={"sm"}
                       bg={"transparent"}
                       _hover={{ bg: "whiteAlpha.300", color: "red.600" }}
                       borderRadius={4}
                       p={1}
-                      // onClick={handleDeletePost}
-                      // isLoading={isDeleting}
+                      onClick={handleDeletePost}
+                      isLoading={isDeleting}
                     >
                       <MdDelete size={20} cursor='pointer' />
                     </Button>
-                  {/* )} */}
+                  )}
                 </Flex>
                 <Divider my={4} bg={"gray.500"} />
 
-                <VStack w='full' alignItems={"start"} maxH={"350px"} 
+                <VStack w='full' alignItems={"start"} maxH={"350px"}
                 overflowY={"auto"}
                 >
                   {/* CAPTION */}
-                  {/* {post.caption && */}
+                  {post.caption &&
                     <Caption post={post}/>
-                  {/* } */}
-
+                  }
 
                   {/* COMMENTS */}
-                  {[0,1,2,3,4,4,4,4,4,4,4,4,4,].map((comment,commentId) => (
-                    <Comment key={commentId} comment={comment} />
+                  {post.comments[1]&&post.comments.map((comment) => (
+                    <Comment key={comment?._id} comment={comment} />
                   ))}
-                  {/* {post.comments.map((comment) => (
-                    <Comment key={comment.id} comment={comment} />
-                  ))} */}
                 </VStack>
                 <Divider my={4} bg={"gray.800"} />
                 <PostFooter isProfilePage={true} post={post} />

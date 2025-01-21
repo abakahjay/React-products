@@ -23,7 +23,7 @@ import usePreviewImg from "../../hooks/usePreviewing";
 import useShowToast from "../../hooks/useShowToast";
 import useAuthStore from "../../store/useAuthStore";
 import usePostStore from "../../store/usePostStore";
-import useUserProfileStore from "../../store/userProfileStore";
+import useProfileStore from "../../store/userProfileStore";
 import { useLocation } from "react-router-dom";
 
 const CreatePost = () => {
@@ -122,9 +122,12 @@ function useCreatePost() {
 	const showToast = useShowToast();
 	const [isLoading, setIsLoading] = useState(false);
 	const authUser = useAuthStore((state) => state.user);
+	const setAuthUser = useAuthStore((state) => state.setAuthUser);
 	const createPost = usePostStore((state) => state.createPost);
-	const addPost = useUserProfileStore((state) => state.addPost);
-	const userProfile = useUserProfileStore((state) => state.userProfile);
+	const posts = usePostStore((state) => state.posts);
+	
+	const addPost = useProfileStore((state) => state.addPost);
+	const { userProfile, setUserProfile } = useProfileStore();
 	const { pathname } = useLocation();
 	// console.log(authUser._id)
 	const handleCreatePost = async (formDatas2,selectedFile, caption) => {
@@ -150,9 +153,16 @@ function useCreatePost() {
 			if(fr.error){
 				throw new Error(fr.error)
 			}
-			// if (userProfile.uid === authUser.uid) createPost({ ...newPost, id: postDocRef.id });
-
-			// if (pathname !== "/" && userProfile.uid === authUser.uid) addPost({ ...newPost, id: postDocRef.id });
+			fr.newPost.postId&&setAuthUser({
+				...authUser,
+				posts: [...authUser.posts,fr.newPost.postId],
+			});
+			if (userProfile?.user?._id === authUser?._id){
+				addPost(fr.user);
+			}
+			createPost(fr.newPost);
+			console.log(posts)
+			// if (pathname !== "/" && userProfile.user._id === authUser._id) addPost({ ...newPost, id: postDocRef.id });
 
 			showToast("Success", "Post created successfully", "success");
 		} catch (error) {

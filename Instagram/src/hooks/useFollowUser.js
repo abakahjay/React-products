@@ -22,6 +22,9 @@ const useFollowUser = (userId) => {
                 // unfollow
                 const datas=await API.patch(`/api/v1/users/${authUser._id}/unfollow`,{userId})
                 const frs=await datas.data
+                if(frs.error){
+                    throw new Error(fr.error)
+                }
                 // console.log(frs)
 				setAuthUser({
                     ...authUser,
@@ -38,7 +41,9 @@ const useFollowUser = (userId) => {
                 // follow
                 const data=await API.patch(`/api/v1/users/${authUser._id}/follow`,{userId})
                 const fr=await data.data
-                // console.log(fr)
+                if(fr.error){
+                    throw new Error(fr.error)
+                }
                 setAuthUser({
                     ...authUser,
                     following: [...authUser.following, userId],
@@ -51,7 +56,8 @@ const useFollowUser = (userId) => {
                 setIsFollowing(true);
 			}
 		} catch (error) {
-			showToast("Error", error.message, "error");
+			const message = error.response?.data?.error || error.message
+			showToast("Error", message, "error");
 		} finally {
 			setIsUpdating(false);
 		}

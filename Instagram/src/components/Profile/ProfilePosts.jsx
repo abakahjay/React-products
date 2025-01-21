@@ -1,31 +1,13 @@
 import { Box, Flex, Grid, Skeleton, Text, VStack } from "@chakra-ui/react";
 import ProfilePost from "./ProfilePost";
-import { useEffect, useState } from "react";
+import useGetUserPosts from "../../hooks/useGetUserPosts";
 
 
-const ProfilePosts = ({user}) => {
-    // console.log(user)
-    const [isFollowing,setIsFollowing] = useState(false)
-    const [isLoading,setIsLoading]=useState(true);
-    useEffect(()=>{
-        setTimeout(()=>{
-            setIsLoading(false);
-        },1000)
-    })
-    const [followerse,setFollowers] = useState(2002)
-    const handleFollows = ()=>{
-        setIsLoading(true)
-        if(!isFollowing){
-            setIsFollowing(true)
-            setFollowers(followerse+1)
-        }else{
-            setIsFollowing(false)
-            setFollowers(followerse-1)
-        }
-    }
-
-
-	const noPostsFound = !isLoading && user?.posts.length === 0;
+const ProfilePosts = ({ user }) => {
+	const { isLoading, posts } = useGetUserPosts()
+	// let isLoading= !true;
+	posts[0]&&console.log(posts)
+	const noPostsFound =!posts[0]&& !isLoading && posts?.length === 0;
 	if (noPostsFound) return <NoPostsFound />;
 
 	return (
@@ -46,14 +28,11 @@ const ProfilePosts = ({user}) => {
 					</VStack>
 				))}
 
-			{!isLoading && (
+			{!isLoading &&posts[0] &&(
 				<>
-					{user?.posts.map((post) => (
-            <ProfilePost post={post} key={post} />
-          ))}
-          {/* {user.posts.map((post) => (
-						<ProfilePost post={post} key={post.id} />
-					))} */}
+					{posts?.map((post) => (
+						<ProfilePost post={post} key={post._id} />
+					))}
 				</>
 			)}
 		</Grid>

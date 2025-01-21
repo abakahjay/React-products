@@ -4,9 +4,10 @@ import {NotificationsLogo,UnlikeLogo,CommentLogo}from '../../assets/constants.js
 
 
 
-export default function PostFooter({username,isProfilePage}) {
+export default function PostFooter({username,post,isProfilePage}) {
+    post&&console.log(post)
     const [liked,setLiked] = useState(false)
-    const [likes,setLikes] = useState(1000)
+    const [likes,setLikes] = useState(post?.likes.length||1)
     const commentRef = useRef(null);
     const handleLikes = ()=>{
         if(liked){

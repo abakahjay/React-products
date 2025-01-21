@@ -6,7 +6,7 @@ import useGetSuggestedUsers from "../../hooks/useGetSuggestedUsers"
 export default function SuggestedUsers({authUser,onLogout}) {
     const user=authUser.user?authUser.user:authUser
     const { isLoading, suggestedUsers }=useGetSuggestedUsers()
-    suggestedUsers[0]&&console.log(suggestedUsers)
+    // suggestedUsers[0]&&console.log(suggestedUsers)
 
     if (isLoading) return <CommentSkeleton />;
     return (

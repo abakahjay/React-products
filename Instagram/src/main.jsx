@@ -41,6 +41,6 @@ createRoot(document.getElementById('root')).render(
       {/* THis is for Creating Routes and Pages */}
       <App/>
     </ChakraProvider>
-  </StrictMode>,
+  </StrictMode>
 )
 console.log('Hello world')
