@@ -14,7 +14,7 @@ import usePostComment from "../../hooks/usePostComment";
 import { useEffect, useRef } from "react";
 
 const CommentsModal = ({ isOpen, onClose, post }) => {
-	console.log(post)
+	// console.log(post)
 	const { handlePostComment, isCommenting } = usePostComment();
 	const commentRef = useRef(null);
 	const commentsContainerRef = useRef(null);
@@ -53,7 +53,7 @@ const CommentsModal = ({ isOpen, onClose, post }) => {
 						overflowY={"auto"}
 						ref={commentsContainerRef}
 					>
-						{post.comments.map((comment, idx) => (
+						{post.comments.map((comment) => (
 							<Comment key={comment?._id} comment={comment} />
 						))}
 					</Flex>

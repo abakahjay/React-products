@@ -159,8 +159,8 @@ function useCreatePost() {
 			});
 			if (userProfile?.user?._id === authUser?._id){
 				addPost(fr.user);
+				createPost(fr.newPost);
 			}
-			createPost(fr.newPost);
 			console.log(posts)
 			// if (pathname !== "/" && userProfile.user._id === authUser._id) addPost({ ...newPost, id: postDocRef.id });
 

@@ -10,11 +10,9 @@ export const  useGetUserById= (userId)=> {
         const controller = new AbortController();
         const fetchUser = async () => {
             setLoading(true); // Set loading state to true
+            setUserProfile(null)
             try {
-                const response =await API.get(`/api/v1/users/${userId}`,{
-                    signal: controller.signal,
-                })
-                // Save user info to Zustand and local storage
+                const response =await API.get(`/api/v1/users/${userId}`,{signal: controller.signal})
                 const users = response.data
                 setUserProfile(users.user)
             } catch (err) {
@@ -32,8 +30,8 @@ export const  useGetUserById= (userId)=> {
         return ()=>{//This is a cleanup function
             controller.abort();
         }
-    },[ userId])
+    },[ userId,showToast, setUserProfile, ])
 
-    return {isLoading,userProfile };
+    return {isLoading,userProfile,setUserProfile };
 
 }

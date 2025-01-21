@@ -1,33 +1,59 @@
-import { Flex ,Box, Avatar, Skeleton,Button} from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Skeleton, SkeletonCircle } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import useFollowUser from "../../hooks/useFollowUser";
+import { timeAgo } from "../../utils/timeAgo";
+import { ProfileUrl } from "../../utils/imageUrl";
 
-export default function PostHeader({avatar,username}) {
-    return (
-        <Flex justifyContent={'space-between'} alignItems={'center'} w={'full'} my={2}>
-            <Flex alignItems={'center'} gap={2}>
-                {/* profile Picture */}
-                <Avatar size={'sm'} src={avatar} alt="user profile pic"/>
-
-
-                {/* Username and Date */}
-                <Flex fontSize={12} fontWeight={'bold'} gap={2}>
-                    {username}_
-                    <Box color={'gray.500'}>
-                        • 1w
-                    </Box>
+const PostHeader = ({ post, creatorProfile }) => {
+        // console.log(creatorProfile)
+        let url =ProfileUrl(creatorProfile?.profile_picture_id)//||''
+        // setTimeout(() => {
+            
+        // }, 100);
+        // creatorProfile&&console.log(post,creatorProfile);
+        const { handleFollowUser, isFollowing, isUpdating } = useFollowUser(post.createdBy);
+    
+        return (
+            <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} my={2}>
+                <Flex alignItems={"center"} gap={2}>
+                    {creatorProfile&&url ? (
+                        <Link to={`/${creatorProfile.username}`}>
+                            <Avatar src={url} alt='user profile pic' size={"sm"} />
+                        </Link>
+                    ) : (
+                        <SkeletonCircle size='10' />
+                    )}
+    
+                    <Flex fontSize={12} fontWeight={"bold"} gap='2'>
+                        {creatorProfile ? (
+                            <Link to={`/${creatorProfile.username}`}>{creatorProfile.username}</Link>
+                        ) : (
+                            <Skeleton w={"100px"} h={"10px"} />
+                        )}
+    
+                        <Box color={"gray.500"}>• {timeAgo(post.created)}</Box>
+                    </Flex>
                 </Flex>
+                <Box cursor={"pointer"}>
+                    <Button
+                        size={"xs"}
+                        bg={"transparent"}
+                        fontSize={12}
+                        color={"blue.500"}
+                        fontWeight={"bold"}
+                        _hover={{
+                            color: "white",
+                        }}
+                        transition={"0.2s ease-in-out"}
+                        onClick={handleFollowUser}
+                        isLoading={isUpdating}
+                    >
+                        {isFollowing ? "Unfollow" : "Follow"}
+                    </Button>
+                </Box>
             </Flex>
-            <Box cursor={'pointer'}>
-                <Button size={'xm'}
-                fontSize={12}
-                color={'blue.500'}
-                bg={'transparent'}
-                _hover={{color:'white'}}
-                fontWeight={"bold"}
-                transition={"0.25s ease-in-out"}
-                >
-                    Unfollow
-                </Button>
-            </Box>
-        </Flex>
-    )
-}
+        );
+    };
+    
+    export default PostHeader;
+    
