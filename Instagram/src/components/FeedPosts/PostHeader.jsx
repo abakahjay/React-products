@@ -5,7 +5,7 @@ import { timeAgo } from "../../utils/timeAgo";
 import { ProfileUrl } from "../../utils/imageUrl";
 import useAuthStore from "../../store/useAuthStore";
 
-const PostHeader = ({ post, creatorProfile }) => {
+const PostHeader = ({ post, creatorProfile,profileImageUrl,imageLoading }) => {
         const { handleFollowUser, isFollowing, isUpdating } = useFollowUser(post.createdBy);
         const UseAuth = useAuthStore((state) => state.user);
         let url =ProfileUrl(creatorProfile?.profile_picture_id)//||''
@@ -23,9 +23,9 @@ const PostHeader = ({ post, creatorProfile }) => {
         return (
             <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"} my={2}>
                 <Flex alignItems={"center"} gap={2}>
-                    {creatorProfile&&url ? (
+                    {profileImageUrl ? (
                         <Link to={`/${creatorProfile.username}`}>
-                            <Avatar src={url} alt='user profile pic' size={"sm"} />
+                            <Avatar src={profileImageUrl} alt='user profile pic' size={"sm"} />
                         </Link>
                     ) : (
                         <SkeletonCircle size='10' />

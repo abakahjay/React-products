@@ -6,7 +6,14 @@ import { useGetUserById } from "../../hooks/useGetUserById";
 import { ProfileUrl } from "../../utils/imageUrl";
 export default function Comment({comment}) {
 
-  const {userProfile,isLoading}= useGetUserById(comment.user)
+  const {
+    isLoading,
+    userProfile,
+    profileImageUrl, // Return the profile image URL
+    imageLoading, // Return the image loading state
+    imageError, // Return any errors related to the image
+    setUserProfile,
+  }= useGetUserById(comment.user)
   let url =ProfileUrl(userProfile?.profile_picture_id);
   // let url =userProfile?.profile_picture_id?ProfileUrl(userProfile?.profile_picture_id):''
 
@@ -16,7 +23,7 @@ export default function Comment({comment}) {
   if(userProfile)return(
     <Flex gap={4}>
     <Link to={`/${userProfile.username}`}>
-      {<Avatar src={url} size={"sm"} />}
+      {<Avatar src={profileImageUrl} size={"sm"} />}
     </Link>
     <Flex direction={"column"}>
       <Flex gap={2} alignItems={"center"}>
