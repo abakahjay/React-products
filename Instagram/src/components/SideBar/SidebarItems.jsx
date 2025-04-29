@@ -3,6 +3,7 @@ import Home from "./Home";
 import Notifications from "./Notifications";
 import ProfileLink from "./ProfileLink";
 import Search from "./Search";
+import Messages from './MessagesLink'
 
 const SidebarItems = ({authUser,onLogout}) => {
 	return (
@@ -11,6 +12,7 @@ const SidebarItems = ({authUser,onLogout}) => {
 			<Search authUser={authUser} onLogout={onLogout}/>
 			<Notifications authUser={authUser} onLogout={onLogout}/>
 			<CreatePost authUser={authUser} onLogout={onLogout}/>
+			<Messages authUser={authUser} onLogouot={onLogout}/>
 			<ProfileLink authUser={authUser} onLogout={onLogout} />
 		</>
 	);

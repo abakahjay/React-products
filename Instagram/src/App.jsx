@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 import useAuthStore from "./store/useAuthStore.js";
 import API from "./utils/api";
 import {ProfilePage} from './pages/ProfilePage/ProfilePage';
+import MessagesPage from './pages/Messages/Messages';
 import useLogout from "./hooks/useLogout.js";
 import { Flex, Spinner } from "@chakra-ui/react";
 import useShowToast from "./hooks/useShowToast.js";
+import ChatModal from "./components/Modals/messagesModal.jsx";
 
 
 export default function App(){
@@ -89,6 +91,23 @@ export default function App(){
                 <PageLayout authUser={authUser} onLogout={handleLogout}>
                     {/* {authUser ? <ProfilePage authUser={authUser} onLogout={handleLogout} /> : <Navigate to="/auth" onLogout={handleLogout}/>} */}
                     <ProfilePage authUser={authUser}  onLogout={handleLogout} />
+                </PageLayout>
+            ),
+        },
+        {
+            path: '/messages/:id',
+            element: (
+                <PageLayout authUser={authUser} onLogout={handleLogout}>
+                    {/* {authUser ? <ProfilePage authUser={authUser} onLogout={handleLogout} /> : <Navigate to="/auth" onLogout={handleLogout}/>} */}
+                    <ChatModal authUser={authUser}  onLogout={handleLogout} />
+                </PageLayout>
+            ),
+        },
+        {
+            path: '/messages',
+            element: (
+                <PageLayout authUser={authUser} onLogout={handleLogout}>
+                    {authUser ? <MessagesPage authUser={authUser} onLogout={handleLogout} /> : <Navigate to="/auth" onLogout={handleLogout}/>}
                 </PageLayout>
             ),
         },
