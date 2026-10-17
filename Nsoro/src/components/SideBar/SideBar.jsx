@@ -1,6 +1,6 @@
 import {Box, Flex,Link,Tooltip,Button} from '@chakra-ui/react'
 import { Link as RouterLink } from "react-router-dom";
-import {InstagramMobileLogo,InstagramLogo} from '../../assets/constants.jsx'
+import {NsoroMobileLogo,NsoroLogo} from '../../assets/constants.jsx'
 import { BiLogOut } from "react-icons/bi";
 // import useLogout from "../../hooks/useLogout";
 import SidebarItems from "./SidebarItems";
@@ -22,7 +22,7 @@ export function SideBar({ authUser, onLogout}){
             >
                 <Flex direction={'column'} gap={10} w={'full'} height={'full'}>
                     <Link to={"/"} as={RouterLink} pl={2} display={{ base: "none", md: "block" }} cursor='pointer' >
-                        <InstagramLogo/>
+                        <NsoroLogo/>
                     </Link>
                     <Link
                         to={"/"}
@@ -36,7 +36,7 @@ export function SideBar({ authUser, onLogout}){
                         w={10}
                         cursor='pointer'
                     >
-                        <InstagramMobileLogo />
+                        <NsoroMobileLogo />
                     </Link>
                     <Flex direction={"column"} gap={5} cursor={"pointer"}>
                         <SidebarItems authUser={authUser} onLogout={onLogout} />

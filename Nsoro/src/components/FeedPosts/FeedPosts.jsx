@@ -11,7 +11,7 @@ export default function FeedPosts({authUser}) {
     return (
         <Container maxW={'container.sm'} py={10} px={2}>
 
-            {/* For the Loading Skeleton of Instagram */}
+            {/* For the Loading Skeleton of Nsoro */}
             {isLoading&&[0,1,2,3].map((_,idx)=>(
                 <VStack key={idx} gap={4} alignItems={'flex-start'} mb={10}>
                     <Flex gap={2} alignItems={'center'}>
